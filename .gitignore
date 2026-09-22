@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.env
+.env.*
+*.csv
+*.xlsx
+prepared*.json
+import-issues.json
+detailed-sql-results.json
+*newman-report.json

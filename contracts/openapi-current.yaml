@@ -1,0 +1,581 @@
+openapi: 3.1.0
+info:
+  title: PredelAI — действующий API сценария UC-01
+  version: 0.3.3-case.1
+  description: Срез двух действующих операций приложения 0.3.3. Схемы извлечены из FastAPI; описания и ошибочные
+    ответы дополнены по коду. Технический отказ может возвращаться как 200 с нулём и признаком куратора; это ограничение
+    реализации. Синтетические примеры не являются результатами работы моделей.
+paths:
+  /api/submit:
+    post:
+      tags:
+      - Решения
+      summary: Отправить решение текстом
+      operationId: create_attempt_api_submit_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttemptIn'
+            example:
+              task_id: demo-ege13-001
+              text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π]
+                получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+        required: true
+      responses:
+        '200':
+          description: Попытка сохранена; ответ может содержать признак ручной проверки или технический ноль.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttemptOut'
+              examples:
+                окончательная:
+                  value: &id001
+                    id: attempt-demo-final
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    feedback:
+                      spans_detail: []
+                      checked: true
+                      general_comment: Решение соответствует критериям.
+                      comments: []
+                      score: 2.0
+                      max_score: 2.0
+                      final_decision: AUTO_ACCEPT
+                      needs_curator: false
+                      review_required: false
+                      review_reason: ''
+                      uncertainty_point: null
+                    created_at: '2026-09-15T12:00:00Z'
+                    score: 2.0
+                    max_score: 2.0
+                    is_solved: true
+                    needs_curator: false
+                    review_reason: ''
+                    uncertainty_point: null
+                    coins_rewarded: 0
+                    stats: null
+                признак_куратора:
+                  value:
+                    id: attempt-demo-review
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    feedback:
+                      spans_detail: []
+                      checked: true
+                      general_comment: Оценщик B недоступен
+                      comments: []
+                      score: 1
+                      max_score: 2.0
+                      final_decision: MANUAL_REVIEW_REQUIRED
+                      needs_curator: true
+                      review_required: true
+                      review_reason: Оценщик B недоступен
+                      uncertainty_point: null
+                    created_at: '2026-09-15T12:00:00Z'
+                    score: 1
+                    max_score: 2.0
+                    is_solved: false
+                    needs_curator: true
+                    review_reason: Оценщик B недоступен
+                    uncertainty_point: null
+                    coins_rewarded: 0
+                    stats: null
+                отказ_оценивания:
+                  value:
+                    id: attempt-demo-failure
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    feedback:
+                      spans_detail: []
+                      checked: true
+                      general_comment: Проверка завершилась с ошибкой. Решение отправлено на ручную проверку.
+                      comments: []
+                      score: 0
+                      max_score: 2.0
+                      final_decision: MANUAL_REVIEW_REQUIRED
+                      needs_curator: true
+                      review_required: true
+                      review_reason: Проверка завершилась с ошибкой
+                      uncertainty_point: null
+                    created_at: '2026-09-15T12:00:00Z'
+                    score: 0
+                    max_score: 2.0
+                    is_solved: false
+                    needs_curator: true
+                    review_reason: Проверка завершилась с ошибкой
+                    uncertainty_point: null
+                    coins_rewarded: 0
+                    stats: null
+                только_ответ:
+                  value:
+                    id: attempt-demo-answer
+                    task_id: demo-ege13-001
+                    solution_text: 'Ответ: 1'
+                    feedback:
+                      spans_detail: []
+                      checked: true
+                      general_comment: 'Нужен полный ход решения: один итоговый ответ не засчитывается.'
+                      comments: []
+                      score: 0
+                      max_score: 2.0
+                      final_decision: null
+                      needs_curator: false
+                      review_required: false
+                      review_reason: ''
+                      uncertainty_point: null
+                    created_at: '2026-09-15T12:00:00Z'
+                    score: null
+                    max_score: null
+                    is_solved: false
+                    needs_curator: false
+                    review_reason: ''
+                    uncertainty_point: null
+                    coins_rewarded: 0
+                    stats: null
+        '422':
+          description: Неверные поля, параметры либо непригодный текст.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblem'
+              examples:
+                пусто:
+                  value:
+                    detail: Solution text is empty
+                схема:
+                  value:
+                    detail:
+                    - loc:
+                      - body
+                      - text
+                      msg: Field required
+                      type: missing
+        '429':
+          description: Превышена частота. Retry-After текущим ограничителем не задаётся.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailError'
+              examples:
+                лимит:
+                  value:
+                    detail: Rate limit exceeded for submit
+        '401':
+          description: Авторизация отсутствует или недействительна.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailError'
+              examples:
+                нет_токена:
+                  value:
+                    detail: Auth required
+        '404':
+          description: Задача отсутствует.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailError'
+              examples:
+                нет_задачи:
+                  value:
+                    detail: Task not found
+        '400':
+          description: Общий обработчик DomainError, если зависимость завершилась доменной ошибкой.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainError'
+        '500':
+          description: Необработанная ошибка, в том числе ошибка хранилища; единый JSON-контракт не задан.
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Internal Server Error
+      security:
+      - HTTPBearer: []
+      description: 'UC-01. task_id — ID каталога. text должен содержать непробельный символ. Верхний предел не проверяется
+        схемой: обработчик обрезает текст по настройке, по умолчанию до 40 000 символов. Неизвестные поля тела игнорируются.
+        Ограничитель: 20 запросов/60 секунд на пользователя и IP в одном процессе; администратор освобождён. Идемпотентность
+        не гарантируется.'
+  /api/tasks/{task_id}/attempts:
+    get:
+      tags:
+      - История
+      summary: Получить свои попытки по задаче
+      operationId: list_my_attempts_for_task_api_tasks__task_id__attempts_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Task Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Массив собственных попыток.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AttemptOut'
+              examples:
+                список:
+                  value:
+                  - *id001
+                пусто:
+                  value: []
+        '422':
+          description: Недопустимые параметры истории.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              examples:
+                параметр:
+                  value:
+                    detail:
+                    - loc:
+                      - query
+                      - limit
+                      msg: Input should be greater than or equal to 1
+                      type: greater_than_equal
+        '401':
+          description: Авторизация отсутствует или недействительна.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailError'
+              examples:
+                нет_токена:
+                  value:
+                    detail: Auth required
+        '404':
+          description: Задача отсутствует.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailError'
+              examples:
+                нет_задачи:
+                  value:
+                    detail: Task not found
+        '400':
+          description: Общий обработчик DomainError, если зависимость завершилась доменной ошибкой.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainError'
+        '500':
+          description: Необработанная ошибка, в том числе ошибка хранилища; единый JSON-контракт не задан.
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Internal Server Error
+      description: Только попытки текущего пользователя. Чужие попытки не включаются в список; пустой список — 200.
+        Неизвестная задача — 404. limit 1–200 (50), offset ≥ 0 (0). Текущий репозиторий возвращает новые записи
+        первыми; total и курсор не возвращаются. max_score истории извлекается из feedback и может отличаться от
+        верхнего поля первоначального ответа в ветви «только ответ».
+components:
+  schemas:
+    AttemptIn:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        text:
+          type: string
+          minLength: 1
+          title: Text
+      type: object
+      required:
+      - task_id
+      - text
+      title: AttemptIn
+    AttemptOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        task_id:
+          type: string
+          title: Task Id
+        solution_text:
+          type: string
+          title: Solution Text
+          default: ''
+        feedback:
+          $ref: '#/components/schemas/Feedback'
+        created_at:
+          type: string
+          title: Created At
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        max_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Score
+        is_solved:
+          type: boolean
+          title: Is Solved
+          default: false
+        needs_curator:
+          type: boolean
+          title: Needs Curator
+          default: false
+        review_reason:
+          type: string
+          title: Review Reason
+          default: ''
+        uncertainty_point:
+          anyOf:
+          - $ref: '#/components/schemas/UncertaintyPoint'
+          - type: 'null'
+        coins_rewarded:
+          type: integer
+          title: Coins Rewarded
+          default: 0
+        stats:
+          anyOf:
+          - $ref: '#/components/schemas/StatsOut'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - task_id
+      - feedback
+      - created_at
+      title: AttemptOut
+    Feedback:
+      properties:
+        spans_detail:
+          items:
+            $ref: '#/components/schemas/Span'
+          type: array
+          title: Spans Detail
+        checked:
+          type: boolean
+          title: Checked
+          default: false
+        general_comment:
+          type: string
+          title: General Comment
+          default: ''
+        comments:
+          items:
+            type: string
+          type: array
+          title: Comments
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        max_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Score
+        final_decision:
+          anyOf:
+          - type: string
+            enum:
+            - AUTO_ACCEPT
+            - MANUAL_REVIEW_REQUIRED
+          - type: 'null'
+          title: Final Decision
+        needs_curator:
+          type: boolean
+          title: Needs Curator
+          default: false
+        review_required:
+          type: boolean
+          title: Review Required
+          default: false
+        review_reason:
+          type: string
+          title: Review Reason
+          default: ''
+        uncertainty_point:
+          anyOf:
+          - $ref: '#/components/schemas/UncertaintyPoint'
+          - type: 'null'
+      type: object
+      title: Feedback
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Span:
+      properties:
+        start:
+          type: integer
+          title: Start
+        end:
+          type: integer
+          title: End
+        message:
+          type: string
+          title: Message
+          default: ''
+        severity:
+          type: string
+          title: Severity
+          default: info
+      type: object
+      required:
+      - start
+      - end
+      title: Span
+    StatsOut:
+      properties:
+        solved:
+          type: integer
+          title: Solved
+        attempts:
+          type: integer
+          title: Attempts
+        streak_days:
+          type: integer
+          title: Streak Days
+          default: 0
+        coins:
+          type: integer
+          title: Coins
+          default: 0
+        solved_task_ids:
+          items:
+            type: string
+          type: array
+          title: Solved Task Ids
+      type: object
+      required:
+      - solved
+      - attempts
+      title: StatsOut
+    UncertaintyPoint:
+      properties:
+        stage:
+          type: string
+          title: Stage
+        reason_type:
+          type: string
+          title: Reason Type
+        message:
+          type: string
+          title: Message
+          default: ''
+        related_step_ids:
+          items:
+            type: string
+          type: array
+          title: Related Step Ids
+        related_criterion_ids:
+          items:
+            type: string
+          type: array
+          title: Related Criterion Ids
+        related_check_ids:
+          items:
+            type: string
+          type: array
+          title: Related Check Ids
+        related_block_ids:
+          items:
+            type: string
+          type: array
+          title: Related Block Ids
+      type: object
+      required:
+      - stage
+      - reason_type
+      title: UncertaintyPoint
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DetailError:
+      type: object
+      required:
+      - detail
+      properties:
+        detail:
+          type: string
+    DomainError:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    ValidationProblem:
+      oneOf:
+      - $ref: '#/components/schemas/DetailError'
+      - $ref: '#/components/schemas/HTTPValidationError'
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Токен доступа в Authorization: Bearer. Refresh-токен не принимается.'
+servers:
+- url: http://127.0.0.1:8765
+  description: Изолированный стенд из tools/uc01_stand.py
+- url: http://localhost:8000
+  description: Пример адреса локального backend; проверить фактический порт
+tags:
+- name: Решения
+- name: История

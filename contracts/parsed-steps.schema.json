@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "ParsedStep": {
+      "properties": {
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "order_index": {
+          "minimum": 1,
+          "title": "Order Index",
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "domain_restriction",
+            "equation_setup",
+            "inequality_setup",
+            "equivalent_transformation",
+            "implication_transformation",
+            "simplification",
+            "substitution",
+            "case_split",
+            "case_result",
+            "theorem_or_identity_use",
+            "intermediate_result",
+            "final_answer",
+            "answer_part_a",
+            "answer_part_b",
+            "answer_part_c",
+            "proof_claim",
+            "proof_conclusion"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "statement_latex": {
+          "default": "",
+          "title": "Statement Latex",
+          "type": "string"
+        },
+        "statement_text": {
+          "default": "",
+          "title": "Statement Text",
+          "type": "string"
+        },
+        "normalized_statement": {
+          "default": "",
+          "title": "Normalized Statement",
+          "type": "string"
+        },
+        "parsed_math_kind": {
+          "default": "",
+          "title": "Parsed Math Kind",
+          "type": "string"
+        },
+        "relation_to_previous": {
+          "enum": [
+            "start",
+            "equiv",
+            "implies",
+            "case_of",
+            "derived_from",
+            "answer"
+          ],
+          "title": "Relation To Previous",
+          "type": "string"
+        },
+        "evidence_block_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Block Ids",
+          "type": "array"
+        },
+        "evidence_visual_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Visual Fact Ids",
+          "type": "array"
+        },
+        "depends_on_step_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Depends On Step Ids",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "semantic_slot": {
+          "default": "",
+          "title": "Semantic Slot",
+          "type": "string"
+        },
+        "routing_role": {
+          "default": "",
+          "title": "Routing Role",
+          "type": "string"
+        },
+        "routing_confidence": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Routing Confidence",
+          "type": "number"
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "review_required": {
+          "default": false,
+          "title": "Review Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "step_id",
+        "order_index",
+        "type",
+        "relation_to_previous",
+        "confidence"
+      ],
+      "title": "ParsedStep",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/ParsedStep"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "parser_flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Parser Flags",
+      "type": "array"
+    },
+    "confidence": {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "review_required": {
+      "default": false,
+      "title": "Review Required",
+      "type": "boolean"
+    },
+    "flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Flags",
+      "type": "array"
+    }
+  },
+  "required": [
+    "task_id"
+  ],
+  "title": "ParsedSteps",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

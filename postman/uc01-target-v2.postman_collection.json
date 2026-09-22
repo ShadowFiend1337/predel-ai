@@ -1,0 +1,542 @@
+{
+  "info": {
+    "name": "PredelAI · UC-01 · целевой API 2.0",
+    "description": "Проектные запросы и ожидания; сервер v2 пока не реализован. Заполнить base_url и токены после появления реализации. Для P07/P08 требуется управляемая подстановка отказов на тестовом сервере; тело запроса не выбирает поведение модели. Служебных /_demo запросов здесь нет. См. протокол и сохранённые примеры в OpenAPI.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "other_token",
+      "value": ""
+    },
+    {
+      "key": "task_id",
+      "value": "demo-ege13-001"
+    },
+    {
+      "key": "schemas",
+      "value": "{\"SubmitTextV2\": {\"additionalProperties\": false, \"properties\": {\"task_id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Task Id\", \"type\": \"string\"}, \"text\": {\"maxLength\": 40000, \"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Text\", \"type\": \"string\"}}, \"required\": [\"task_id\", \"text\"], \"title\": \"SubmitTextV2\", \"type\": \"object\"}, \"CompletedReviewV2\": {\"additionalProperties\": false, \"properties\": {\"id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Id\", \"type\": \"string\"}, \"status\": {\"const\": \"completed\", \"title\": \"Status\", \"type\": \"string\"}}, \"required\": [\"id\", \"status\"], \"title\": \"CompletedReviewV2\", \"type\": \"object\"}, \"DecisionV2\": {\"additionalProperties\": false, \"properties\": {\"source\": {\"enum\": [\"primary_agreement\", \"grader_a\", \"grader_b\", \"arbiter\", \"calibration\", \"input_rule\", \"curator\", \"none\"], \"title\": \"Source\", \"type\": \"string\"}, \"reason_codes\": {\"items\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"type\": \"string\"}, \"title\": \"Reason Codes\", \"type\": \"array\"}}, \"required\": [\"source\", \"reason_codes\"], \"title\": \"DecisionV2\", \"type\": \"object\"}, \"FinalAttemptV2\": {\"additionalProperties\": false, \"properties\": {\"schema_version\": {\"const\": \"2.0\", \"title\": \"Schema Version\", \"type\": \"string\"}, \"id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Id\", \"type\": \"string\"}, \"task_id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Task Id\", \"type\": \"string\"}, \"solution_text\": {\"maxLength\": 40000, \"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Solution Text\", \"type\": \"string\"}, \"created_at\": {\"format\": \"date-time\", \"title\": \"Created At\", \"type\": \"string\"}, \"max_score\": {\"exclusiveMinimum\": 0, \"title\": \"Max Score\", \"type\": \"number\"}, \"feedback\": {\"$ref\": \"#/definitions/StudentFeedbackV2\"}, \"decision\": {\"$ref\": \"#/definitions/DecisionV2\"}, \"result_status\": {\"const\": \"final\", \"title\": \"Result Status\", \"type\": \"string\"}, \"score\": {\"minimum\": 0, \"title\": \"Score\", \"type\": \"number\"}, \"is_solved\": {\"title\": \"Is Solved\", \"type\": \"boolean\"}, \"review\": {\"anyOf\": [{\"$ref\": \"#/definitions/CompletedReviewV2\"}, {\"type\": \"null\"}]}}, \"required\": [\"schema_version\", \"id\", \"task_id\", \"solution_text\", \"created_at\", \"max_score\", \"feedback\", \"decision\", \"result_status\", \"score\", \"is_solved\", \"review\"], \"title\": \"FinalAttemptV2\", \"type\": \"object\"}, \"PendingReviewV2\": {\"additionalProperties\": false, \"properties\": {\"id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Id\", \"type\": \"string\"}, \"status\": {\"enum\": [\"pending\", \"in_progress\"], \"title\": \"Status\", \"type\": \"string\"}}, \"required\": [\"id\", \"status\"], \"title\": \"PendingReviewV2\", \"type\": \"object\"}, \"ProvisionalAttemptV2\": {\"additionalProperties\": false, \"properties\": {\"schema_version\": {\"const\": \"2.0\", \"title\": \"Schema Version\", \"type\": \"string\"}, \"id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Id\", \"type\": \"string\"}, \"task_id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Task Id\", \"type\": \"string\"}, \"solution_text\": {\"maxLength\": 40000, \"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Solution Text\", \"type\": \"string\"}, \"created_at\": {\"format\": \"date-time\", \"title\": \"Created At\", \"type\": \"string\"}, \"max_score\": {\"exclusiveMinimum\": 0, \"title\": \"Max Score\", \"type\": \"number\"}, \"feedback\": {\"$ref\": \"#/definitions/StudentFeedbackV2\"}, \"decision\": {\"$ref\": \"#/definitions/DecisionV2\"}, \"result_status\": {\"const\": \"provisional\", \"title\": \"Result Status\", \"type\": \"string\"}, \"score\": {\"anyOf\": [{\"minimum\": 0, \"type\": \"number\"}, {\"type\": \"null\"}], \"title\": \"Score\"}, \"is_solved\": {\"const\": false, \"title\": \"Is Solved\", \"type\": \"boolean\"}, \"review\": {\"$ref\": \"#/definitions/PendingReviewV2\"}}, \"required\": [\"schema_version\", \"id\", \"task_id\", \"solution_text\", \"created_at\", \"max_score\", \"feedback\", \"decision\", \"result_status\", \"score\", \"is_solved\", \"review\"], \"title\": \"ProvisionalAttemptV2\", \"type\": \"object\"}, \"StudentFeedbackV2\": {\"additionalProperties\": false, \"properties\": {\"general_comment\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"General Comment\", \"type\": \"string\"}, \"comments\": {\"items\": {\"type\": \"string\"}, \"title\": \"Comments\", \"type\": \"array\"}}, \"required\": [\"general_comment\", \"comments\"], \"title\": \"StudentFeedbackV2\", \"type\": \"object\"}, \"AttemptV2\": {\"discriminator\": {\"mapping\": {\"final\": \"#/definitions/FinalAttemptV2\", \"provisional\": \"#/definitions/ProvisionalAttemptV2\"}, \"propertyName\": \"result_status\"}, \"oneOf\": [{\"$ref\": \"#/definitions/FinalAttemptV2\"}, {\"$ref\": \"#/definitions/ProvisionalAttemptV2\"}], \"title\": \"AttemptV2\", \"x-invariants\": [\"0 <= score <= max_score, если score не null\", \"final: is_solved эквивалентен score == max_score\", \"provisional: is_solved=false, review.id существует, reason_codes непусты\", \"final с review: status=completed и source=curator; без review source != curator\", \"Числовой балл требует source != none\"]}, \"ErrorDetailV2\": {\"additionalProperties\": false, \"properties\": {\"code\": {\"enum\": [\"AUTH_REQUIRED\", \"TASK_NOT_FOUND\", \"VALIDATION_ERROR\", \"RATE_LIMITED\", \"GRADING_UNAVAILABLE\", \"PERSISTENCE_FAILURE\", \"PERSISTENCE_OUTCOME_UNKNOWN\", \"INTERNAL_ERROR\"], \"title\": \"Code\", \"type\": \"string\"}, \"message\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Message\", \"type\": \"string\"}, \"retryable\": {\"title\": \"Retryable\", \"type\": \"boolean\"}}, \"required\": [\"code\", \"message\", \"retryable\"], \"title\": \"ErrorDetailV2\", \"type\": \"object\"}, \"ErrorV2\": {\"additionalProperties\": false, \"properties\": {\"schema_version\": {\"const\": \"2.0\", \"title\": \"Schema Version\", \"type\": \"string\"}, \"request_id\": {\"minLength\": 1, \"pattern\": \"\\\\S\", \"title\": \"Request Id\", \"type\": \"string\"}, \"result\": {\"title\": \"Result\", \"type\": \"null\"}, \"error\": {\"$ref\": \"#/definitions/ErrorDetailV2\"}}, \"required\": [\"schema_version\", \"request_id\", \"result\", \"error\"], \"title\": \"ErrorV2\", \"type\": \"object\"}}"
+    }
+  ],
+  "item": [
+    {
+      "name": "P01 · Окончательный результат и история",
+      "item": [
+        {
+          "name": "Получить окончательную оценку",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptV2\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Окончательная оценка', () => pm.expect(body.result_status).to.eql('final'));",
+                  "pm.collectionVariables.set('attempt_id', body.id);",
+                  "pm.test('Балл и окончательность согласованы', () => {if(body.score !== null){pm.expect(body.score).to.be.at.most(body.max_score);} if(body.result_status==='final'){pm.expect(body.is_solved).to.eql(body.score===body.max_score);} else {pm.expect(body.is_solved).to.eql(false); pm.expect(body.decision.reason_codes.length).to.be.above(0); pm.expect(body.review.id).to.be.a('string').and.not.empty;}});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Найти попытку в своей истории",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/v2/tasks/{{task_id}}/attempts?limit=50&offset=0"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"type\": \"array\", \"items\": {\"$ref\": \"#/definitions/AttemptV2\"}}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Попытка есть в истории', () => pm.expect(body.some(x=>x.id===pm.collectionVariables.get('attempt_id'))).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить изоляцию другого ученика",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/v2/tasks/{{task_id}}/attempts",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{other_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"type\": \"array\", \"items\": {\"$ref\": \"#/definitions/AttemptV2\"}}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Чужая попытка не раскрыта', () => pm.expect(body.some(x=>x.id===pm.collectionVariables.get('attempt_id'))).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P02 · Недопустимый текст",
+      "item": [
+        {
+          "name": "Пробельная строка",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"   \"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"VALIDATION_ERROR\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Превышение 40 000 символов",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"task_id\":\"{{task_id}}\",\"text\":{{long_text_json}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.variables.set('long_text_json', JSON.stringify('x=1. '.repeat(8001)));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"VALIDATION_ERROR\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P03 · Без авторизации",
+      "item": [
+        {
+          "name": "Токен не передан",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"AUTH_REQUIRED\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P04 · Неизвестная задача",
+      "item": [
+        {
+          "name": "Неизвестный ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"missing-demo-task\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"TASK_NOT_FOUND\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P05 · Ограничение частоты",
+      "item": [
+        {
+          "name": "При исчерпанном лимите",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 429\", () => pm.response.to.have.status(429));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"RATE_LIMITED\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Время повторной отправки задано', () => {pm.expect(pm.response.headers.has('Retry-After')).to.eql(true); pm.expect(Number(pm.response.headers.get('Retry-After'))).to.be.above(0);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P06 · Только ответ",
+      "item": [
+        {
+          "name": "Предметный ноль",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"Ответ: 1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptV2\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Окончательный предметный отказ', () => {pm.expect(body.score).to.eql(0); pm.expect(body.result_status).to.eql('final'); pm.expect(body.decision.source).to.eql('input_rule');});",
+                  "pm.test('Балл и окончательность согласованы', () => {if(body.score !== null){pm.expect(body.score).to.be.at.most(body.max_score);} if(body.result_status==='final'){pm.expect(body.is_solved).to.eql(body.score===body.max_score);} else {pm.expect(body.is_solved).to.eql(false); pm.expect(body.decision.reason_codes.length).to.be.above(0); pm.expect(body.review.id).to.be.a('string').and.not.empty;}});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P07 · Один оценщик недоступен",
+      "item": [
+        {
+          "name": "Предварительный результат",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptV2\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Есть сохранённая задача куратора', () => {pm.expect(body.result_status).to.eql('provisional'); pm.expect(body.review.status).to.eql('pending');});",
+                  "pm.test('Балл и окончательность согласованы', () => {if(body.score !== null){pm.expect(body.score).to.be.at.most(body.max_score);} if(body.result_status==='final'){pm.expect(body.is_solved).to.eql(body.score===body.max_score);} else {pm.expect(body.is_solved).to.eql(false); pm.expect(body.decision.reason_codes.length).to.be.above(0); pm.expect(body.review.id).to.be.a('string').and.not.empty;}});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P08 · Технические отказы",
+      "item": [
+        {
+          "name": "Оценка не получена",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 503\", () => pm.response.to.have.status(503));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"GRADING_UNAVAILABLE\", \"PERSISTENCE_OUTCOME_UNKNOWN\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Нет технического балла', () => {pm.expect(body.result).to.eql(null); pm.expect(body.error.code).to.eql('GRADING_UNAVAILABLE');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Подтверждённый отказ сохранения",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/v2/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 500\", () => pm.response.to.have.status(500));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"allOf\": [{\"$ref\": \"#/definitions/ErrorV2\"}, {\"type\": \"object\", \"properties\": {\"error\": {\"type\": \"object\", \"properties\": {\"code\": {\"enum\": [\"PERSISTENCE_FAILURE\", \"INTERNAL_ERROR\"]}}}}}]}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Сохранение не подтверждено', () => pm.expect(body.error.code).to.eql('PERSISTENCE_FAILURE'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.variables.get('base_url') || !pm.variables.get('token')) { throw new Error('Задайте адрес реализации v2 и токен тестового ученика'); }"
+        ]
+      }
+    }
+  ]
+}

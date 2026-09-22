@@ -1,0 +1,261 @@
+{
+  "checked_at": "2026-09-15T21:24:28.316Z",
+  "engine": {
+    "name": "PGlite",
+    "version": "0.5.8",
+    "postgres": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+  },
+  "dataset": "8 synthetic records; additional isolated boundary checks rolled back",
+  "real_dataset_executed": false,
+  "application_database_used": false,
+  "queries_passed": 7,
+  "verification_scenarios_passed": 21,
+  "failures": 0,
+  "checks": [
+    {
+      "name": "01: корректные данные не дают замечаний",
+      "status": "passed"
+    },
+    {
+      "name": "02: уникальные ответы не считаются дублями",
+      "status": "passed"
+    },
+    {
+      "name": "03: состав выборки",
+      "status": "passed"
+    },
+    {
+      "name": "04: точность, знаменатель и абсолютное отклонение",
+      "status": "passed"
+    },
+    {
+      "name": "05: направление расхождения и доли",
+      "status": "passed"
+    },
+    {
+      "name": "06: не более трёх расхождений каждого номера и порядок при равных разницах",
+      "status": "passed"
+    },
+    {
+      "name": "07: среднее, медиана и интерполированный P90",
+      "status": "passed"
+    },
+    {
+      "name": "Нет оценки ИИ: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Нет эталона: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Оценка выше максимума: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Оценка ниже нуля: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Эталон выше максимума: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Максимум отсутствует: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Максимум равен нулю: дефект виден, сравнение исключено, время сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Неразобранная дата: время исключено, сравнение баллов сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Нет даты куратора: время исключено, сравнение баллов сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Отрицательный интервал: время исключено, сравнение баллов сохранено",
+      "status": "passed"
+    },
+    {
+      "name": "Повторный ID обнаружен; автоматического удаления дубля нет",
+      "status": "passed"
+    },
+    {
+      "name": "Пробельный ID обнаружен как пропуск",
+      "status": "passed"
+    },
+    {
+      "name": "Одна работа: процентили определены, расхождений нет",
+      "status": "passed"
+    },
+    {
+      "name": "Пустой набор: семь запросов возвращают пустые результаты",
+      "status": "passed"
+    }
+  ],
+  "base_results": {
+    "01_data_quality.sql": [],
+    "02_duplicate_answers.sql": [],
+    "03_sample_composition.sql": [
+      {
+        "task_number": 13,
+        "answers_count": 5,
+        "tasks_count": 2,
+        "students_count": 5
+      },
+      {
+        "task_number": 14,
+        "answers_count": 3,
+        "tasks_count": 1,
+        "students_count": 3
+      }
+    ],
+    "04_score_accuracy.sql": [
+      {
+        "task_number": 13,
+        "compared_answers": 5,
+        "exact_matches": 1,
+        "accuracy_pct": "20.00",
+        "mean_absolute_error": "1.20"
+      },
+      {
+        "task_number": 14,
+        "compared_answers": 3,
+        "exact_matches": 1,
+        "accuracy_pct": "33.33",
+        "mean_absolute_error": "2.00"
+      }
+    ],
+    "05_score_direction.sql": [
+      {
+        "result": "Завышение",
+        "answers_count": 3,
+        "share_pct": "37.50"
+      },
+      {
+        "result": "Занижение",
+        "answers_count": 3,
+        "share_pct": "37.50"
+      },
+      {
+        "result": "Совпадение",
+        "answers_count": 2,
+        "share_pct": "25.00"
+      }
+    ],
+    "06_largest_disagreements.sql": [
+      {
+        "source_row": 4,
+        "answer_id": "demo-a4",
+        "task_number": 13,
+        "ai_points": "0",
+        "curator_points": "2",
+        "score_difference": "2",
+        "ai_comment": "Синтетический комментарий",
+        "curator_comment": "Синтетический эталон"
+      },
+      {
+        "source_row": 5,
+        "answer_id": "demo-a5",
+        "task_number": 13,
+        "ai_points": "2",
+        "curator_points": "0",
+        "score_difference": "2",
+        "ai_comment": "Синтетический комментарий",
+        "curator_comment": "Синтетический эталон"
+      },
+      {
+        "source_row": 2,
+        "answer_id": "demo-a2",
+        "task_number": 13,
+        "ai_points": "1",
+        "curator_points": "2",
+        "score_difference": "1",
+        "ai_comment": "Синтетический комментарий",
+        "curator_comment": "Синтетический эталон"
+      },
+      {
+        "source_row": 7,
+        "answer_id": "demo-a7",
+        "task_number": 14,
+        "ai_points": "0",
+        "curator_points": "3",
+        "score_difference": "3",
+        "ai_comment": "Синтетический комментарий",
+        "curator_comment": "Синтетический эталон"
+      },
+      {
+        "source_row": 8,
+        "answer_id": "demo-a8",
+        "task_number": 14,
+        "ai_points": "3",
+        "curator_points": "0",
+        "score_difference": "3",
+        "ai_comment": "Синтетический комментарий",
+        "curator_comment": "Синтетический эталон"
+      }
+    ],
+    "07_review_duration.sql": [
+      {
+        "task_number": 13,
+        "measured_answers": 5,
+        "average_hours": "5.00",
+        "median_hours": "5.00",
+        "p90_hours": "8.20"
+      },
+      {
+        "task_number": 14,
+        "measured_answers": 3,
+        "average_hours": "4.00",
+        "median_hours": "4.00",
+        "p90_hours": "5.60"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "path": "sql/00_checks_schema.sql",
+      "sha256": "4f047bc62e41ee7902c2bea875235e7182dd06ef5d72d8565a36c2f41f251a3f"
+    },
+    {
+      "path": "sql/fixtures/synthetic_checks.sql",
+      "sha256": "2954a7387a848fe3b79aafecc03fd7b8ef8078e84e3a67e4f08b5a55eb401084"
+    },
+    {
+      "path": "sql/01_data_quality.sql",
+      "sha256": "1667806c8e9ebbd1be5a8a9260a04d958c831ac95eb137b9d0e505147083361a"
+    },
+    {
+      "path": "sql/02_duplicate_answers.sql",
+      "sha256": "3bc874f4e9197a70790ee05c957137d68efcb5f0b2692f049073dacb10dcc2f7"
+    },
+    {
+      "path": "sql/03_sample_composition.sql",
+      "sha256": "35bb66671bfdabc440bf17919b143fd70f28fdac461aae302f7b639ee2e2a612"
+    },
+    {
+      "path": "sql/04_score_accuracy.sql",
+      "sha256": "85081cc6fe514c841e80e50efe984719c5435a8d669092778654b1ab8abd062c"
+    },
+    {
+      "path": "sql/05_score_direction.sql",
+      "sha256": "a9011d847d3f3b28d8990f1e1e60e1a0fe55c41c0686166d2a21db1f5a62ea7c"
+    },
+    {
+      "path": "sql/06_largest_disagreements.sql",
+      "sha256": "8a4dcb4df9f1822aa45d62a9e042ac579e2fbd67026d390067cc34c7bc8a07ae"
+    },
+    {
+      "path": "sql/07_review_duration.sql",
+      "sha256": "52db1a7d6d236b7e94e7f424504bb84ced69fafb7b1260a098b18394998d8627"
+    },
+    {
+      "path": "tools/verify_sql.mjs",
+      "sha256": "010f06c8bc132bb847540a6b71c59c5bb37b5dfbafded827f76ab133d1cbbcf5"
+    }
+  ]
+}

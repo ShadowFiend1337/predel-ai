@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-09-15T17:54:36.314940+00:00",
+  "openapi": [
+    {
+      "file": "contracts/openapi-current.yaml",
+      "sha256": "fd29508b037ecf2ac586f637065f5a96622520b5f20d6bbf561711071a289155",
+      "valid": true,
+      "examples_validated": 17
+    },
+    {
+      "file": "contracts/openapi-target-v2.yaml",
+      "sha256": "d55a68bc5420c5d140c348a8b3c00bdab697f31a1210242a7b8909c0ddf5cf89",
+      "valid": true,
+      "examples_validated": 19
+    }
+  ],
+  "postman": [
+    {
+      "file": "postman/uc01-current.postman_collection.json",
+      "sha256": "e39b962317073367ba368028ea8721ccfba7d014ebc90080ed2428d35749ce2d",
+      "scripts_parsed": 40,
+      "matches_generator_and_contract_schemas": true
+    },
+    {
+      "file": "postman/uc01-target-v2.postman_collection.json",
+      "sha256": "823f6e9e20d0029e0306d461c3cbf6fc09a13fdf877078ff45b0fa07efcd4a94",
+      "scripts_parsed": 14,
+      "matches_generator_and_contract_schemas": true
+    }
+  ],
+  "target_runtime": {
+    "status": "not_implemented_not_executed"
+  },
+  "dependencies": {
+    "openapi-spec-validator": "0.7.2",
+    "jsonschema": "4.23.0",
+    "pydantic": "2.12.3",
+    "fastapi": "0.115.14",
+    "PyYAML": "6.0.3"
+  },
+  "target_and_current_model_checks": {
+    "valid_examples_accepted": [
+      "Текущий ответ: окончательная",
+      "Текущий ответ: признак_куратора",
+      "Текущий ответ: отказ_оценивания",
+      "Текущий ответ: только_ответ",
+      "Целевой ответ: окончательная",
+      "Целевой ответ: предварительная",
+      "Целевой ответ: без_предварительного_балла",
+      "Целевой ответ: подтверждена_куратором",
+      "Ровно 40 000 символов Unicode",
+      "Техническая ошибка без балла"
+    ],
+    "invalid_examples_rejected": [
+      "40 001 символ",
+      "Пробелы и переносы строк",
+      "Пустой текст",
+      "Нет текста",
+      "Число вместо текста",
+      "Пустой идентификатор",
+      "Неизвестное поле запроса",
+      "Балл выше максимума",
+      "Отрицательный балл",
+      "Логическое значение вместо балла",
+      "Нулевой максимум",
+      "Нет окончательного балла",
+      "Неверный признак полного решения",
+      "Неизвестное поле ответа",
+      "Нет часового пояса",
+      "Окончательная оценка без источника",
+      "Решение куратора без задачи",
+      "Предметный отказ с ненулевым баллом",
+      "Предварительная оценка без задачи",
+      "Предварительная оценка без причины",
+      "Предварительная оценка без источника",
+      "Предварительная оценка признана полной",
+      "Завершённая задача при предварительной оценке",
+      "Оценка внутри технической ошибки",
+      "Лишний балл в технической ошибке"
+    ]
+  },
+  "current_runtime": {
+    "status": "not_executed_in_this_run"
+  },
+  "sources": [
+    {
+      "path": "predel/backend/app/api/routers/submit.py",
+      "sha256": "20b47cd4c729819d3c23f73f2a588fa1e9bc2cbf4585d8f3c36b6e540b82b004"
+    },
+    {
+      "path": "predel/backend/app/api/routers/attempts.py",
+      "sha256": "3190eb0b776fe68a3a36bc74458b69e1bd0208f195e8c38246eefe914efa532a"
+    },
+    {
+      "path": "predel/backend/app/api/schemas/attempt.py",
+      "sha256": "918bbc4406229e64d18783a30098cae1b98dee995dbbc6466db024045383431d"
+    },
+    {
+      "path": "predel/backend/app/core/security.py",
+      "sha256": "c114fdaaa3e3e73bd599b1c2141b527da857fa9c41856e295f7ccdc7d81a9965"
+    },
+    {
+      "path": "predel/backend/app/core/rate_limit.py",
+      "sha256": "ee70c47ef57f473a325b04441e8753cfe8c58dcedde09d40d5d245d6a7629167"
+    },
+    {
+      "path": "predel/backend/app/core/deps.py",
+      "sha256": "7845ccbc8bcb732439ca8676db94ea9f0474d1e782d2a478e58bb2ee63ab9c86"
+    },
+    {
+      "path": "predelai-ai-checking-pipeline-case-compact/tools/build_api_package.py",
+      "sha256": "8dbb1242e9d30fc74cb26e3154ac336d3768e9f1e05837a662486f6eead2f888"
+    },
+    {
+      "path": "predelai-ai-checking-pipeline-case-compact/tools/target_contract_models.py",
+      "sha256": "fa5b10cf7bc59c26bb7928f460b178576d7f7d82ce5db22b9b271c5421bb2f5f"
+    },
+    {
+      "path": "predelai-ai-checking-pipeline-case-compact/tools/uc01_stand.py",
+      "sha256": "8c96173a5576f727d223710bc68a3f7896605effe13c948b3740076a2d259068"
+    },
+    {
+      "path": "predelai-ai-checking-pipeline-case-compact/tools/verify_api_package.py",
+      "sha256": "a927cfc10dc2f1beab79febc52ea96130033f056d2d0bf58ee4c16ad44a68c8f"
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "analyzed_at": "2026-09-16T13:36:40.996Z",
+  "source": {
+    "prepared_at": "2026-09-16T13:36:39.020049+00:00",
+    "source_sha256": "7d35f0a75005c6b5e27183c0999f23f49e2fe9d09190a087dcc078cbd606ce81",
+    "source_bytes": 32891761,
+    "source_headers": [
+      "exam",
+      "grade",
+      "discipline",
+      "course_id",
+      "short_title",
+      "type",
+      "module_id",
+      "module_title",
+      "lesson_id",
+      "lesson_title",
+      "homework_id",
+      "is_trial_task",
+      "student_homework_id",
+      "sent_to_review_at",
+      "task_id",
+      "task_number",
+      "question_id",
+      "question_description",
+      "valid_answer_example",
+      "question_files",
+      "type_id",
+      "question_comment",
+      "max_points",
+      "max_points_detail",
+      "answer_id",
+      "answer",
+      "ai_check_id",
+      "ai_points",
+      "ai_comment",
+      "ai_points_detail",
+      "curator_points",
+      "curator_comment",
+      "curator_reviewed_at",
+      "curator_id",
+      "stud_id",
+      "city"
+    ],
+    "source_rows": 9042,
+    "prepared_rows": 9042,
+    "rows_dropped": 0,
+    "prepared_sha256": "66db1517c4c81cf4f12c43534be34dcfc982e5c7179c3a4f1b224ac46e64d0e1",
+    "duplicate_id_groups": {
+      "answer_id": 0,
+      "ai_check_id": 0
+    },
+    "import_issues": [
+      {
+        "field": "curator_reviewed_at",
+        "kind": "missing",
+        "count": 21
+      },
+      {
+        "field": "sent_to_review_at",
+        "kind": "invalid_timestamp",
+        "count": 1
+      }
+    ],
+    "timezone": "not_confirmed; source timestamps are naive",
+    "ai_system": "Стобалльный репетитор",
+    "model_version": "not_provided",
+    "reference_score": "curator_points, confirmed by case owner",
+    "source_url": "https://docs.google.com/spreadsheets/d/1rLxt7ZERF11VZUILCKYxOf7WGRQ0GC2j2mJpLOH1cIg/edit?gid=0",
+    "sheet": "Лист1",
+    "snapshot_description": "Previously retrieved CSV; fixed SHA-256, live sheet not re-read in this run"
+  },
+  "engine": {
+    "name": "PGlite",
+    "version": "0.5.8",
+    "postgres": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+  },
+  "real_dataset_executed": true,
+  "application_database_used": false,
+  "queries_executed": 7,
+  "import_and_exclusions": {
+    "total": 9042,
+    "score_included": 9042,
+    "invalid_maximum": 0,
+    "missing_ai_score": 0,
+    "missing_reference": 0,
+    "invalid_score_range": 0,
+    "dates_missing_or_invalid": 22,
+    "negative_intervals": 0,
+    "time_included": 9020
+  },
+  "overall_score_agreement": {
+    "compared_answers": 9042,
+    "exact_matches": 6409,
+    "accuracy_pct": "70.88",
+    "mean_absolute_error": "0.3751"
+  },
+  "composition": [
+    {
+      "task_number": 13,
+      "answers_count": 8902,
+      "tasks_count": 128,
+      "students_count": 3751
+    },
+    {
+      "task_number": 14,
+      "answers_count": 140,
+      "tasks_count": 28,
+      "students_count": 75
+    }
+  ],
+  "unique_counts": {
+    "tasks": 156,
+    "questions": 156,
+    "students": 3814
+  },
+  "score_accuracy": [
+    {
+      "task_number": 13,
+      "compared_answers": 8902,
+      "exact_matches": 6328,
+      "accuracy_pct": "71.09",
+      "mean_absolute_error": "0.37"
+    },
+    {
+      "task_number": 14,
+      "compared_answers": 140,
+      "exact_matches": 81,
+      "accuracy_pct": "57.86",
+      "mean_absolute_error": "0.59"
+    }
+  ],
+  "score_direction": [
+    {
+      "result": "Совпадение",
+      "answers_count": 6409,
+      "share_pct": "70.88"
+    },
+    {
+      "result": "Завышение",
+      "answers_count": 1642,
+      "share_pct": "18.16"
+    },
+    {
+      "result": "Занижение",
+      "answers_count": 991,
+      "share_pct": "10.96"
+    }
+  ],
+  "data_quality": {
+    "flagged_rows": 22,
+    "duplicate_answer_groups": 0
+  },
+  "disagreement_examples": [
+    {
+      "case_label": "CASE-13-1",
+      "task_number": 13,
+      "ai_points": "0",
+      "curator_points": "2",
+      "score_difference": "2"
+    },
+    {
+      "case_label": "CASE-13-2",
+      "task_number": 13,
+      "ai_points": "2",
+      "curator_points": "0",
+      "score_difference": "2"
+    },
+    {
+      "case_label": "CASE-13-3",
+      "task_number": 13,
+      "ai_points": "0",
+      "curator_points": "2",
+      "score_difference": "2"
+    },
+    {
+      "case_label": "CASE-14-1",
+      "task_number": 14,
+      "ai_points": "3",
+      "curator_points": "0",
+      "score_difference": "3"
+    },
+    {
+      "case_label": "CASE-14-2",
+      "task_number": 14,
+      "ai_points": "0",
+      "curator_points": "3",
+      "score_difference": "3"
+    },
+    {
+      "case_label": "CASE-14-3",
+      "task_number": 14,
+      "ai_points": "0",
+      "curator_points": "3",
+      "score_difference": "3"
+    }
+  ],
+  "review_duration": {
+    "status": "conditional_on_same_timezone_and_event_semantics",
+    "values": [
+      {
+        "task_number": 13,
+        "measured_answers": 8880,
+        "average_hours": "29.86",
+        "median_hours": "33.06",
+        "p90_hours": "55.65"
+      },
+      {
+        "task_number": 14,
+        "measured_answers": 140,
+        "average_hours": "45.54",
+        "median_hours": "42.83",
+        "p90_hours": "82.52"
+      }
+    ],
+    "date_range": {
+      "first_sent": "2026-03-20 18:26:50",
+      "last_sent": "2026-03-25 19:59:34",
+      "first_reviewed": "2026-03-20 20:05:06",
+      "last_reviewed": "2026-03-26 09:20:26"
+    }
+  },
+  "verification": {
+    "independent_score_recalculation": "passed",
+    "population_reconciliation": "passed",
+    "pii_and_source_comments_excluded_from_report": true
+  },
+  "limitations": [
+    "Model version is not provided",
+    "Timestamp timezone and exact event semantics are not confirmed",
+    "Curator score treated as reference by owner instruction",
+    "PredelAI results on the same answers were not supplied",
+    "Not a representative estimate for all tasks or platform users; task 13 dominates",
+    "Score agreement does not measure false comments"
+  ],
+  "sources": [
+    {
+      "path": "sql/00_checks_schema.sql",
+      "sha256": "4f047bc62e41ee7902c2bea875235e7182dd06ef5d72d8565a36c2f41f251a3f"
+    },
+    {
+      "path": "sql/01_data_quality.sql",
+      "sha256": "1667806c8e9ebbd1be5a8a9260a04d958c831ac95eb137b9d0e505147083361a"
+    },
+    {
+      "path": "sql/02_duplicate_answers.sql",
+      "sha256": "3bc874f4e9197a70790ee05c957137d68efcb5f0b2692f049073dacb10dcc2f7"
+    },
+    {
+      "path": "sql/03_sample_composition.sql",
+      "sha256": "35bb66671bfdabc440bf17919b143fd70f28fdac461aae302f7b639ee2e2a612"
+    },
+    {
+      "path": "sql/04_score_accuracy.sql",
+      "sha256": "85081cc6fe514c841e80e50efe984719c5435a8d669092778654b1ab8abd062c"
+    },
+    {
+      "path": "sql/05_score_direction.sql",
+      "sha256": "a9011d847d3f3b28d8990f1e1e60e1a0fe55c41c0686166d2a21db1f5a62ea7c"
+    },
+    {
+      "path": "sql/06_largest_disagreements.sql",
+      "sha256": "8a4dcb4df9f1822aa45d62a9e042ac579e2fbd67026d390067cc34c7bc8a07ae"
+    },
+    {
+      "path": "sql/07_review_duration.sql",
+      "sha256": "52db1a7d6d236b7e94e7f424504bb84ced69fafb7b1260a098b18394998d8627"
+    },
+    {
+      "path": "tools/prepare_sql_dataset.py",
+      "sha256": "7fc4ece50158030340419b9b147844d1ada0313fb66f9a559e56584f020e0e14"
+    },
+    {
+      "path": "tools/analyze_sql_dataset.mjs",
+      "sha256": "49d626fff605809d115d6cc3f32e323440f5e0150b9db8717acfd93223eead6a"
+    }
+  ]
+}

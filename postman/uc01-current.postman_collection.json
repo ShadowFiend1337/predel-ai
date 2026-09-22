@@ -1,0 +1,1320 @@
+{
+  "info": {
+    "name": "PredelAI · UC-01 · действующий API",
+    "description": "Восемь сценариев на изолированном стенде tools/uc01_stand.py. Контрольные /_demo/... существуют только на стенде. Реальные обработчики, JWT и ограничитель; хранилище и оценивание заменены. Запускать всю коллекцию по порядку. Проверка текущего поведения не означает выполнение целевых требований.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8765"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "other_token",
+      "value": ""
+    },
+    {
+      "key": "task_id",
+      "value": "demo-ege13-001"
+    },
+    {
+      "key": "schemas",
+      "value": "{\"AttemptIn\": {\"properties\": {\"task_id\": {\"type\": \"string\", \"title\": \"Task Id\"}, \"text\": {\"type\": \"string\", \"minLength\": 1, \"title\": \"Text\"}}, \"type\": \"object\", \"required\": [\"task_id\", \"text\"], \"title\": \"AttemptIn\"}, \"AttemptOut\": {\"properties\": {\"id\": {\"type\": \"string\", \"title\": \"Id\"}, \"task_id\": {\"type\": \"string\", \"title\": \"Task Id\"}, \"solution_text\": {\"type\": \"string\", \"title\": \"Solution Text\", \"default\": \"\"}, \"feedback\": {\"$ref\": \"#/definitions/Feedback\"}, \"created_at\": {\"type\": \"string\", \"title\": \"Created At\"}, \"score\": {\"anyOf\": [{\"type\": \"number\"}, {\"type\": \"null\"}], \"title\": \"Score\"}, \"max_score\": {\"anyOf\": [{\"type\": \"number\"}, {\"type\": \"null\"}], \"title\": \"Max Score\"}, \"is_solved\": {\"type\": \"boolean\", \"title\": \"Is Solved\", \"default\": false}, \"needs_curator\": {\"type\": \"boolean\", \"title\": \"Needs Curator\", \"default\": false}, \"review_reason\": {\"type\": \"string\", \"title\": \"Review Reason\", \"default\": \"\"}, \"uncertainty_point\": {\"anyOf\": [{\"$ref\": \"#/definitions/UncertaintyPoint\"}, {\"type\": \"null\"}]}, \"coins_rewarded\": {\"type\": \"integer\", \"title\": \"Coins Rewarded\", \"default\": 0}, \"stats\": {\"anyOf\": [{\"$ref\": \"#/definitions/StatsOut\"}, {\"type\": \"null\"}]}}, \"type\": \"object\", \"required\": [\"id\", \"task_id\", \"feedback\", \"created_at\"], \"title\": \"AttemptOut\"}, \"Feedback\": {\"properties\": {\"spans_detail\": {\"items\": {\"$ref\": \"#/definitions/Span\"}, \"type\": \"array\", \"title\": \"Spans Detail\"}, \"checked\": {\"type\": \"boolean\", \"title\": \"Checked\", \"default\": false}, \"general_comment\": {\"type\": \"string\", \"title\": \"General Comment\", \"default\": \"\"}, \"comments\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Comments\"}, \"score\": {\"anyOf\": [{\"type\": \"number\"}, {\"type\": \"null\"}], \"title\": \"Score\"}, \"max_score\": {\"anyOf\": [{\"type\": \"number\"}, {\"type\": \"null\"}], \"title\": \"Max Score\"}, \"final_decision\": {\"anyOf\": [{\"type\": \"string\", \"enum\": [\"AUTO_ACCEPT\", \"MANUAL_REVIEW_REQUIRED\"]}, {\"type\": \"null\"}], \"title\": \"Final Decision\"}, \"needs_curator\": {\"type\": \"boolean\", \"title\": \"Needs Curator\", \"default\": false}, \"review_required\": {\"type\": \"boolean\", \"title\": \"Review Required\", \"default\": false}, \"review_reason\": {\"type\": \"string\", \"title\": \"Review Reason\", \"default\": \"\"}, \"uncertainty_point\": {\"anyOf\": [{\"$ref\": \"#/definitions/UncertaintyPoint\"}, {\"type\": \"null\"}]}}, \"type\": \"object\", \"title\": \"Feedback\"}, \"HTTPValidationError\": {\"properties\": {\"detail\": {\"items\": {\"$ref\": \"#/definitions/ValidationError\"}, \"type\": \"array\", \"title\": \"Detail\"}}, \"type\": \"object\", \"title\": \"HTTPValidationError\"}, \"Span\": {\"properties\": {\"start\": {\"type\": \"integer\", \"title\": \"Start\"}, \"end\": {\"type\": \"integer\", \"title\": \"End\"}, \"message\": {\"type\": \"string\", \"title\": \"Message\", \"default\": \"\"}, \"severity\": {\"type\": \"string\", \"title\": \"Severity\", \"default\": \"info\"}}, \"type\": \"object\", \"required\": [\"start\", \"end\"], \"title\": \"Span\"}, \"StatsOut\": {\"properties\": {\"solved\": {\"type\": \"integer\", \"title\": \"Solved\"}, \"attempts\": {\"type\": \"integer\", \"title\": \"Attempts\"}, \"streak_days\": {\"type\": \"integer\", \"title\": \"Streak Days\", \"default\": 0}, \"coins\": {\"type\": \"integer\", \"title\": \"Coins\", \"default\": 0}, \"solved_task_ids\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Solved Task Ids\"}}, \"type\": \"object\", \"required\": [\"solved\", \"attempts\"], \"title\": \"StatsOut\"}, \"UncertaintyPoint\": {\"properties\": {\"stage\": {\"type\": \"string\", \"title\": \"Stage\"}, \"reason_type\": {\"type\": \"string\", \"title\": \"Reason Type\"}, \"message\": {\"type\": \"string\", \"title\": \"Message\", \"default\": \"\"}, \"related_step_ids\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Related Step Ids\"}, \"related_criterion_ids\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Related Criterion Ids\"}, \"related_check_ids\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Related Check Ids\"}, \"related_block_ids\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\", \"title\": \"Related Block Ids\"}}, \"type\": \"object\", \"required\": [\"stage\", \"reason_type\"], \"title\": \"UncertaintyPoint\"}, \"ValidationError\": {\"properties\": {\"loc\": {\"items\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"integer\"}]}, \"type\": \"array\", \"title\": \"Location\"}, \"msg\": {\"type\": \"string\", \"title\": \"Message\"}, \"type\": {\"type\": \"string\", \"title\": \"Error Type\"}}, \"type\": \"object\", \"required\": [\"loc\", \"msg\", \"type\"], \"title\": \"ValidationError\"}, \"DetailError\": {\"type\": \"object\", \"required\": [\"detail\"], \"properties\": {\"detail\": {\"type\": \"string\"}}}, \"DomainError\": {\"type\": \"object\", \"required\": [\"error\"], \"properties\": {\"error\": {\"type\": \"string\"}}}, \"ValidationProblem\": {\"oneOf\": [{\"$ref\": \"#/definitions/DetailError\"}, {\"$ref\": \"#/definitions/HTTPValidationError\"}]}}"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 · Получить учебные токены",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{base_url}}/_demo/session",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const sessionPayload = pm.response.json();",
+              "pm.test('Изолированный стенд', () => pm.expect(sessionPayload.mode).to.eql('current_source_fixture'));",
+              "pm.collectionVariables.set('token', sessionPayload.token);",
+              "pm.collectionVariables.set('other_token', sessionPayload.other_token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "P01 · Оценка и история только своего ученика",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"final\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Отправить решение",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptOut\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Получен полный балл', () => {pm.expect(body.score).to.eql(2); pm.expect(body.is_solved).to.eql(true);});",
+                  "pm.collectionVariables.set('attempt_id', body.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Найти свою попытку в истории",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/tasks/{{task_id}}/attempts?limit=50&offset=0"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"type\": \"array\", \"items\": {\"$ref\": \"#/definitions/AttemptOut\"}}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Своя сохранённая попытка', () => {pm.expect(body).to.have.lengthOf(1); pm.expect(body[0].id).to.eql(pm.collectionVariables.get('attempt_id'));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "История другого ученика пуста",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/tasks/{{task_id}}/attempts",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{other_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"type\": \"array\", \"items\": {\"$ref\": \"#/definitions/AttemptOut\"}}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Данные изолированы', () => pm.expect(body).to.eql([]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Недопустимый limit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/tasks/{{task_id}}/attempts?limit=0"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/HTTPValidationError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Отрицательный offset",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/tasks/{{task_id}}/attempts?offset=-1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/HTTPValidationError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:1,pipeline_calls:1}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P02 · Валидация и фактическое обрезание текста",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"final\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Пустой текст",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/ValidationProblem\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Пробельный текст",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"   \"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/ValidationProblem\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Нет task_id",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/ValidationProblem\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Неверный тип текста",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": 123\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/ValidationProblem\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:0,pipeline_calls:0}));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Слишком длинный текст: текущий API обрезает",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"task_id\": \"{{task_id}}\", \"text\": {{long_text_json}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.variables.set('long_text_json', JSON.stringify('x=1. '.repeat(8001)));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptOut\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Фактическое ограничение, GAP-01', () => pm.expect(body.solution_text).to.eql('x=1. '.repeat(8001).slice(0,40000).trim()));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:1,pipeline_calls:1}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P03 · Отсутствие авторизации",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"final\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Без токена",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/DetailError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Повреждённый токен",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "invalid-demo-token",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/DetailError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:0,pipeline_calls:0}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P04 · Неизвестная задача",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"final\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Задачи нет",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"missing-demo-task\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/DetailError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:0,pipeline_calls:0}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P05 · Превышение частоты",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"rate_limit\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "После 20 отправок за минуту",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 429\", () => pm.response.to.have.status(429));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/DetailError\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:0,pipeline_calls:0}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P06 · Только ответ: расхождение полей",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"final\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Передать только ответ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"Ответ: 1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptOut\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Зафиксирован GAP-06', () => {pm.expect(body.feedback.score).to.eql(0); pm.expect(body.score).to.eql(null); pm.expect(body.max_score).to.eql(null); pm.expect(body.is_solved).to.eql(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:1,pipeline_calls:0}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P07 · Признак ручной проверки",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"provisional\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Один оценщик недоступен",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptOut\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Текущий признак куратора', () => {pm.expect(body.score).to.eql(1); pm.expect(body.needs_curator).to.eql(true); pm.expect(body.is_solved).to.eql(false); pm.expect(body).not.to.have.property('review');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:1,pipeline_calls:1}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P08 · Технические отказы",
+      "item": [
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"grading_failure\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Отказ оценивания возвращает 200 и ноль",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const definitions = JSON.parse(pm.collectionVariables.get('schemas'));",
+                  "const schema = Object.assign({\"$ref\": \"#/definitions/AttemptOut\"}, {definitions});",
+                  "pm.test('Ответ соответствует схеме', () => pm.response.to.have.jsonSchema(schema));",
+                  "pm.test('Зафиксирован GAP-03', () => {pm.expect(body.score).to.eql(0); pm.expect(body.needs_curator).to.eql(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:1,pipeline_calls:1}));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Подготовить изолированные данные",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/_demo/reset",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenario\": \"save_failure\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Подтверждённый отказ сохранения",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/submit",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"{{task_id}}\",\n  \"text\": \"а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 500\", () => pm.response.to.have.status(500));",
+                  "pm.test('Не возвращён успешный результат', () => pm.expect(pm.response.text()).to.eql('Internal Server Error'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Проверить побочные действия",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/_demo/state",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Сохранения и вызовы оценивания', () => pm.expect(pm.response.json()).to.eql({attempts:0,pipeline_calls:1}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const url = pm.variables.replaceIn('{{base_url}}');",
+          "if (!/^http:\\/\\/(127\\.0\\.0\\.1|localhost):\\d+$/.test(url)) { throw new Error('Эта коллекция предназначена только для локального учебного стенда'); }"
+        ]
+      }
+    }
+  ]
+}

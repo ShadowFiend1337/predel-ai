@@ -1,0 +1,203 @@
+{
+  "calculated_at": "2026-09-16T14:30:28.545Z",
+  "source": {
+    "source_url": "https://docs.google.com/spreadsheets/d/1fG-4JZTYh6hDkqvYx55OD-Q1rdC5beDTeAe97ubSD9w/edit?gid=0",
+    "sheet": "Лист1",
+    "sha256": "cc2f05430e9f20497d5882926af687494454551ec348cc4c6c5e6efb7bb35485",
+    "rows": 165,
+    "raw_columns": 27,
+    "distinct_task_texts": 51,
+    "repeated_original_id_groups": 18,
+    "missing_original_ids": 0,
+    "repeated_photo_groups": 0,
+    "missing_photos": 0,
+    "reference": "true_score",
+    "reference_author": "Команда проекта",
+    "usage": "Выборка использовалась при разработке",
+    "model_versions": null
+  },
+  "engine": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "pglite_version": "0.5.8",
+  "queries_executed": 4,
+  "paired_works": 91,
+  "reference_confirmed_by_owner": true,
+  "independent_holdout_confirmed": false,
+  "source_rows_included_in_case": false,
+  "application_database_used": false,
+  "verification": {
+    "passed": 7,
+    "scenarios": [
+      "LEFT JOIN сохраняет все работы; пропуски исключаются только из общей выборки",
+      "Нулевой балл сохраняется; обе системы имеют одинаковый знаменатель",
+      "Эталон команды имеет приоритет над отличающейся оценкой куратора",
+      "Повтор пары работа/серия отклоняется",
+      "Оценка несуществующей работы отклоняется",
+      "Повтор эталона отклоняется",
+      "Пустая выборка не превращается в нулевую точность"
+    ],
+    "independent_recalculation_passed": true
+  },
+  "results": {
+    "01_coverage.sql": [
+      {
+        "task_number": 13,
+        "total_works": 72,
+        "with_reference": 72,
+        "with_predel": 42,
+        "with_their": 72,
+        "paired_works": 42
+      },
+      {
+        "task_number": 14,
+        "total_works": 24,
+        "with_reference": 24,
+        "with_predel": 24,
+        "with_their": 24,
+        "paired_works": 24
+      },
+      {
+        "task_number": 15,
+        "total_works": 25,
+        "with_reference": 25,
+        "with_predel": 25,
+        "with_their": 25,
+        "paired_works": 25
+      },
+      {
+        "task_number": 18,
+        "total_works": 22,
+        "with_reference": 16,
+        "with_predel": 9,
+        "with_their": 0,
+        "paired_works": 0
+      },
+      {
+        "task_number": 19,
+        "total_works": 22,
+        "with_reference": 22,
+        "with_predel": 16,
+        "with_their": 0,
+        "paired_works": 0
+      }
+    ],
+    "02_paired_accuracy.sql": [
+      {
+        "task_number": null,
+        "model_name": "PredelAI",
+        "works": 91,
+        "exact_matches": 83,
+        "accuracy_pct": "91.21",
+        "mae": "0.110"
+      },
+      {
+        "task_number": null,
+        "model_name": "Стобалльный репетитор",
+        "works": 91,
+        "exact_matches": 84,
+        "accuracy_pct": "92.31",
+        "mae": "0.110"
+      },
+      {
+        "task_number": 13,
+        "model_name": "PredelAI",
+        "works": 42,
+        "exact_matches": 38,
+        "accuracy_pct": "90.48",
+        "mae": "0.095"
+      },
+      {
+        "task_number": 13,
+        "model_name": "Стобалльный репетитор",
+        "works": 42,
+        "exact_matches": 36,
+        "accuracy_pct": "85.71",
+        "mae": "0.214"
+      },
+      {
+        "task_number": 14,
+        "model_name": "PredelAI",
+        "works": 24,
+        "exact_matches": 21,
+        "accuracy_pct": "87.50",
+        "mae": "0.208"
+      },
+      {
+        "task_number": 14,
+        "model_name": "Стобалльный репетитор",
+        "works": 24,
+        "exact_matches": 23,
+        "accuracy_pct": "95.83",
+        "mae": "0.042"
+      },
+      {
+        "task_number": 15,
+        "model_name": "PredelAI",
+        "works": 25,
+        "exact_matches": 24,
+        "accuracy_pct": "96.00",
+        "mae": "0.040"
+      },
+      {
+        "task_number": 15,
+        "model_name": "Стобалльный репетитор",
+        "works": 25,
+        "exact_matches": 25,
+        "accuracy_pct": "100.00",
+        "mae": "0.000"
+      }
+    ],
+    "03_outcomes.sql": [
+      {
+        "result": "Обе системы точны",
+        "works": 79,
+        "share_pct": "86.81"
+      },
+      {
+        "result": "PredelAI ближе к эталону",
+        "works": 5,
+        "share_pct": "5.49"
+      },
+      {
+        "result": "Их модель ближе к эталону",
+        "works": 5,
+        "share_pct": "5.49"
+      },
+      {
+        "result": "Одинаковая ошибка по модулю",
+        "works": 2,
+        "share_pct": "2.20"
+      }
+    ],
+    "04_reference_audit.sql": [
+      {
+        "compared_references": 121,
+        "different_scores": 12
+      }
+    ]
+  },
+  "individual_cohorts_not_for_direct_comparison": [
+    {
+      "field": "predel_score",
+      "works": 116,
+      "exact_matches": 104,
+      "absolute_error_sum": 15
+    },
+    {
+      "field": "their_score",
+      "works": 121,
+      "exact_matches": 114,
+      "absolute_error_sum": 10
+    }
+  ],
+  "sha256": {
+    "00_schema.sql": "d9196ccdfeb0103b57e8989ae0e35f00ed3c2f33f3837e4089508dcb132b2d9d",
+    "01_coverage.sql": "3c9369b0455bcde3c9e60e9c213d75b64a3e30e321ca8f4745369571632a602a",
+    "02_paired_accuracy.sql": "168e48487c79f60b3e132e21f7a58bd0fb40210f53e753ebb5c26fa5e28b109e",
+    "03_outcomes.sql": "39e0b06b2be3c6128052377114bff727e3278eaaa60fe8b11e55754e4dda2291",
+    "04_reference_audit.sql": "3a23384505110c38cc923743eedf9e6038a0e1ff5452db5d78c13c651b49b348"
+  },
+  "tool_sha256": {
+    "prepare_comparison_dataset.py": "2dc840d1924e065cf37c5f98ed2061f435773777389c555d8bb9b988a715b99f",
+    "analyze_comparison_dataset.mjs": "a1d2c8e240b5bdb7e4198697efa80d6558f1b092979a85f67b217dfda9b59271"
+  }
+}

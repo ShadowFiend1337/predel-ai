@@ -1,0 +1,177 @@
+{
+  "description": "Снимок исходников, использованных для сверки документации. Пути заданы относительно общего каталога с папками кода и кейса.",
+  "initial_review_date": "2026-09-14",
+  "verification_date": "2026-09-16",
+  "hash_algorithm": "SHA-256",
+  "source_files": [
+    {
+      "path": "predel/backend/app/api/routers/submit.py",
+      "sha256": "20b47cd4c729819d3c23f73f2a588fa1e9bc2cbf4585d8f3c36b6e540b82b004"
+    },
+    {
+      "path": "predel/backend/app/api/schemas/attempt.py",
+      "sha256": "918bbc4406229e64d18783a30098cae1b98dee995dbbc6466db024045383431d"
+    },
+    {
+      "path": "predel/backend/app/core/step_parser.py",
+      "sha256": "0f65293907861d53071112f894c91359ce053413fdb6d3c9c1d3e3717e8b45fb"
+    },
+    {
+      "path": "predel/graders/grader.py",
+      "sha256": "cb1056ba6b505094e1f372b7d142bc2a84ca531408ee727267960beb6d420893"
+    },
+    {
+      "path": "predel/backend/app/infrastructure/db/models.py",
+      "sha256": "58998fe905fa13870364a39a962b118bbef9ae9e9a0a13e36e764be160b98ca7"
+    },
+    {
+      "path": "predel/backend/app/infrastructure/db/repositories_sqlalchemy.py",
+      "sha256": "6afbac89bb20e4577ea4d60b223f7ec1cf1e007bc95fefb90f61a7174beb0406"
+    },
+    {
+      "path": "predel/backend/app/core/rate_limit.py",
+      "sha256": "ee70c47ef57f473a325b04441e8753cfe8c58dcedde09d40d5d245d6a7629167"
+    },
+    {
+      "path": "predel/backend/app/settings.py",
+      "sha256": "9c98dbcd3a7860243405f8c17899ed99b95aceadff6368ede6c0f3164ab96bfc"
+    },
+    {
+      "path": "predel/frontend/src/pages/Task/TaskPage.tsx",
+      "sha256": "6d26e687f5d4ec4464d9b78f933f91c83641b7aa607dda90ac8a0bdfd705d75a"
+    },
+    {
+      "path": "predel/backend/tests/test_ege14_standalone_grader.py",
+      "sha256": "75ed21ef09cfe9519a3085b16d02bac4a0dc6791060ee41dcb62e583c9d16673"
+    },
+    {
+      "path": "predel/backend/tests/test_submit_rules.py",
+      "sha256": "03d4ed2ced186d77e9c4f5073da4da34821fd6ba581e6bf26e4db79f836f04bb"
+    },
+    {
+      "path": "predel/backend/tests/test_step_parser.py",
+      "sha256": "a97e752026a7a3719ef8cf55b42c6c734fd8106872bd31e23d3872a8a98c0b7c"
+    },
+    {
+      "path": "predel/backend/tests/test_prompt_variants.py",
+      "sha256": "1b16d240d3a471e98af61fb6de3974aec95ed4d1eb0061e9c55f4150e57d3fba"
+    }
+  ],
+  "source_integrity": {
+    "description": "Сравнение с контрольными суммами, снятыми перед редактированием документации",
+    "files_compared": 441,
+    "files_changed": 0
+  },
+  "verification": {
+    "working_directory": "predel/backend",
+    "command": "python -m pytest -q -p no:cacheprovider tests/test_ege14_standalone_grader.py tests/test_submit_rules.py tests/test_step_parser.py tests/test_prompt_variants.py",
+    "passed": 173,
+    "failed": 0,
+    "warnings": 5,
+    "duration_seconds": 2.3,
+    "external_model_calls": false,
+    "scope": "Существующие модульные тесты четырёх модулей. Не подтверждают математическую точность на реальных работах, нагрузку или выполнение всех целевых требований."
+  },
+  "documentation_checks": {
+    "date": "2026-09-16",
+    "markdown_files": 32,
+    "local_links_checked": 243,
+    "json_examples_parsed": 15,
+    "examples_checked_against_source_types": 4,
+    "schemas_matched_to_source": 2,
+    "identifiers_defined": 255,
+    "bpmn_xml_and_references_valid": true,
+    "bpmn_svg_visually_checked": true,
+    "errors": 0,
+    "use_case": {
+      "id": "UC-01",
+      "version": "1.1",
+      "main_steps": 13,
+      "alternative_flows": 7,
+      "error_flows": 7,
+      "step_and_branch_references_valid": true,
+      "request_example_validated_against": "AttemptIn",
+      "service_execution_verified": false,
+      "current_api_execution_on_isolated_stand": true,
+      "target_runtime_verified": false
+    }
+  },
+  "api_verification": {
+    "date": "2026-09-15",
+    "report": "verification/uc01-api-report.json",
+    "current_runtime": "isolated_stand",
+    "http_requests": 38,
+    "postman_assertions_passed": 74,
+    "postman_assertions_failed": 0,
+    "openapi_specifications_validated": 2,
+    "openapi_examples_validated": 36,
+    "valid_model_examples_accepted": 10,
+    "invalid_model_examples_rejected": 25,
+    "target_runtime_executed": false,
+    "real_database_used": false,
+    "external_model_calls": false,
+    "ui_verified": false,
+    "newman_version": "6.2.1"
+  },
+  "sql_verification": {
+    "date": "2026-09-16",
+    "report": "verification/sql-report.json",
+    "engine": "PGlite 0.5.8",
+    "synthetic_rows": 8,
+    "queries_passed": 7,
+    "verification_scenarios_passed": 21,
+    "failures": 0,
+    "real_dataset_executed": false,
+    "application_database_used": false
+  },
+  "dataset_analysis": {
+    "date": "2026-09-16",
+    "report": "verification/dataset-analysis-report.json",
+    "source_sha256": "7d35f0a75005c6b5e27183c0999f23f49e2fe9d09190a087dcc078cbd606ce81",
+    "ai_system": "Стобалльный репетитор",
+    "model_version": null,
+    "reference_score": "curator_points",
+    "rows": 9042,
+    "queries_executed": 7,
+    "score_comparisons": 9042,
+    "exact_matches": 6409,
+    "accuracy_percent": "70.88",
+    "time_rows": 9020,
+    "time_interpretation_confirmed": false,
+    "real_dataset_executed": true,
+    "application_database_used": false,
+    "source_rows_included_in_case": false
+  },
+  "comparison_analysis": {
+    "date": "2026-09-16",
+    "report": "verification/comparison-analysis-report.json",
+    "source_sha256": "cc2f05430e9f20497d5882926af687494454551ec348cc4c6c5e6efb7bb35485",
+    "reference_score": "true_score",
+    "reference_author": "Команда проекта",
+    "rows": 165,
+    "paired_works": 91,
+    "predel_exact_matches": 83,
+    "their_exact_matches": 84,
+    "queries_executed": 4,
+    "synthetic_scenarios_passed": 7,
+    "independent_recalculation_passed": true,
+    "independent_holdout_confirmed": false,
+    "application_database_used": false,
+    "source_rows_included_in_case": false
+  },
+  "portfolio_checks": {
+    "date": "2026-09-16",
+    "raw_dataset_files_found": 0,
+    "known_source_photo_links_found": 0,
+    "private_key_or_provider_token_patterns_found": 0,
+    "scope": "Проверка состава папки кейса и указанных шаблонов; не является гарантией обнаружения любых секретов",
+    "published": false,
+    "contribution_page": "docs/22_project_contribution.md",
+    "product_roadmap": "docs/16_product_roadmap.md",
+    "edition": "Финальная редакция аналитического кейса для GitHub",
+    "standalone_local_links_checked": 243,
+    "links_outside_repository": 0,
+    "interview_preparation_materials_included": false,
+    "entry_point": "README.md"
+  }
+}

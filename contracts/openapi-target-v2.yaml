@@ -1,0 +1,751 @@
+openapi: 3.1.0
+info:
+  title: PredelAI — целевой API UC-01
+  version: 2.0.0-draft
+  description: Проектный контракт, в backend не реализован. Новые маршруты /api/v2 сохраняют совместимость существующих
+    /api. Балл хранится в ответе один раз; окончательность и ссылка на задачу куратора явные. Числовой балл при
+    техническом отказе отсутствует. Внешний LMS API /checks сюда не входит.
+servers:
+- url: https://api.example.invalid
+  description: Адрес-заполнитель; заменить адресом реализации v2
+security:
+- BearerAuth: []
+tags:
+- name: Решения
+- name: История
+paths:
+  /api/v2/submit:
+    post:
+      operationId: submitTextV2
+      summary: Отправить решение текстом
+      tags:
+      - Решения
+      description: 'Синхронная операция UC-01. Валидация до вызовов ИИ. Неизвестные поля отклоняются. text: 1–40
+        000 символов Unicode до нормализации, включая пробелы; нужен непробельный символ. Исходный текст сохраняется
+        без математических замен. 200 — только после фиксации попытки и, если нужно, задачи куратора. Idempotency-Key
+        не поддерживается; неизвестный исход требует проверки истории, автоматический повтор запрещён. Общий числовой
+        предел времени согласуется отдельно по NFR-PERF-01.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitTextV2'
+            example:
+              task_id: demo-ege13-001
+              text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На отрезке [0; 2π]
+                получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+      responses:
+        '401':
+          description: Необходимо войти в систему.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - AUTH_REQUIRED
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: AUTH_REQUIRED
+                      message: Необходимо войти в систему.
+                      retryable: false
+        '404':
+          description: Задача не найдена.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - TASK_NOT_FOUND
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: TASK_NOT_FOUND
+                      message: Задача не найдена.
+                      retryable: false
+        '422':
+          description: Проверьте обязательные поля и длину решения.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - VALIDATION_ERROR
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: VALIDATION_ERROR
+                      message: Проверьте обязательные поля и длину решения.
+                      retryable: false
+        '429':
+          description: Слишком много отправок. Повторите позже.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - RATE_LIMITED
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: RATE_LIMITED
+                      message: Слишком много отправок. Повторите позже.
+                      retryable: true
+          headers:
+            Retry-After:
+              required: true
+              description: Секунды до разрешённой повторной отправки.
+              schema:
+                type: integer
+                minimum: 1
+              example: 60
+        '500':
+          description: Не удалось сохранить результат.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - PERSISTENCE_FAILURE
+                          - INTERNAL_ERROR
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: PERSISTENCE_FAILURE
+                      message: Не удалось сохранить результат.
+                      retryable: true
+                неизвестный_исход:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: INTERNAL_ERROR
+                      message: Не удалось подтвердить результат запроса. Проверьте историю.
+                      retryable: false
+        '503':
+          description: Не удалось получить оценку. Повторите позже.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - GRADING_UNAVAILABLE
+                          - PERSISTENCE_OUTCOME_UNKNOWN
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: GRADING_UNAVAILABLE
+                      message: Не удалось получить оценку. Повторите позже.
+                      retryable: true
+                неподтверждённая_фиксация:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: PERSISTENCE_OUTCOME_UNKNOWN
+                      message: Исход сохранения неизвестен. Проверьте историю перед повторной отправкой.
+                      retryable: false
+        '200':
+          description: Сохранён окончательный или предварительный результат. Предварительный ответ требует сохранённой
+            задачи куратора.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttemptV2'
+              examples:
+                окончательная:
+                  value: &id001
+                    schema_version: '2.0'
+                    id: attempt-v2-demo
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    created_at: '2026-09-15T12:00:00Z'
+                    max_score: 2
+                    feedback:
+                      general_comment: Решение соответствует критериям.
+                      comments: []
+                    decision:
+                      source: primary_agreement
+                      reason_codes: []
+                    result_status: final
+                    score: 2
+                    is_solved: true
+                    review: null
+                предварительная:
+                  value:
+                    schema_version: '2.0'
+                    id: attempt-v2-review
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    created_at: '2026-09-15T12:00:00Z'
+                    max_score: 2
+                    feedback:
+                      general_comment: Оценка предварительная. Задача передана куратору.
+                      comments: []
+                    decision:
+                      source: grader_a
+                      reason_codes:
+                      - GRADER_UNAVAILABLE
+                    result_status: provisional
+                    score: 1
+                    is_solved: false
+                    review:
+                      id: review-demo
+                      status: pending
+                без_предварительного_балла:
+                  value:
+                    schema_version: '2.0'
+                    id: attempt-v2-review
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    created_at: '2026-09-15T12:00:00Z'
+                    max_score: 2
+                    feedback:
+                      general_comment: Оценка предварительная. Задача передана куратору.
+                      comments: []
+                    decision:
+                      source: none
+                      reason_codes:
+                      - INSUFFICIENT_EVIDENCE
+                    result_status: provisional
+                    score: null
+                    is_solved: false
+                    review:
+                      id: review-demo
+                      status: pending
+  /api/v2/tasks/{task_id}/attempts:
+    get:
+      operationId: listMyAttemptsV2
+      summary: Получить свою историю версии 2.0
+      tags:
+      - История
+      description: Только записи авторизованного ученика для указанной задачи, в порядке created_at DESC, id DESC.
+        limit/offset не обеспечивают неизменность страниц при конкурентных вставках. Чужие записи не раскрываются;
+        задача без собственных попыток возвращает []. Это история, не API состояния выполняющегося запроса.
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      responses:
+        '401':
+          description: Необходимо войти в систему.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - AUTH_REQUIRED
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: AUTH_REQUIRED
+                      message: Необходимо войти в систему.
+                      retryable: false
+        '404':
+          description: Задача не найдена.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - TASK_NOT_FOUND
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: TASK_NOT_FOUND
+                      message: Задача не найдена.
+                      retryable: false
+        '422':
+          description: Проверьте обязательные поля и длину решения.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ErrorV2'
+                - type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          enum:
+                          - VALIDATION_ERROR
+              examples:
+                пример:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: VALIDATION_ERROR
+                      message: Проверьте обязательные поля и длину решения.
+                      retryable: false
+        '500':
+          description: История временно недоступна.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorV2'
+              examples:
+                ошибка:
+                  value:
+                    schema_version: '2.0'
+                    request_id: request-demo
+                    result: null
+                    error:
+                      code: INTERNAL_ERROR
+                      message: Не удалось загрузить историю.
+                      retryable: true
+        '200':
+          description: Собственные попытки, созданные по контракту 2.0. Старые записи доступны через действующий
+            API.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AttemptV2'
+              examples:
+                история:
+                  value:
+                  - *id001
+                  - schema_version: '2.0'
+                    id: attempt-v2-reviewed
+                    task_id: demo-ege13-001
+                    solution_text: 'а) 2cos(x) - 1 = 0, откуда cos(x) = 1/2. Поэтому x = ±π/3 + 2πn, n ∈ Z. б) На
+                      отрезке [0; 2π] получаем π/3 и 5π/3. Ответ: а) ±π/3 + 2πn, n ∈ Z; б) π/3, 5π/3.'
+                    created_at: '2026-09-15T12:00:00Z'
+                    max_score: 2
+                    feedback:
+                      general_comment: Решение соответствует критериям.
+                      comments: []
+                    decision:
+                      source: curator
+                      reason_codes:
+                      - CONFIRMED
+                    result_status: final
+                    score: 2
+                    is_solved: true
+                    review:
+                      id: review-completed
+                      status: completed
+                пусто:
+                  value: []
+components:
+  schemas:
+    SubmitTextV2:
+      additionalProperties: false
+      properties:
+        task_id:
+          minLength: 1
+          pattern: \S
+          title: Task Id
+          type: string
+        text:
+          maxLength: 40000
+          minLength: 1
+          pattern: \S
+          title: Text
+          type: string
+      required:
+      - task_id
+      - text
+      title: SubmitTextV2
+      type: object
+    CompletedReviewV2:
+      additionalProperties: false
+      properties:
+        id:
+          minLength: 1
+          pattern: \S
+          title: Id
+          type: string
+        status:
+          const: completed
+          title: Status
+          type: string
+      required:
+      - id
+      - status
+      title: CompletedReviewV2
+      type: object
+    DecisionV2:
+      additionalProperties: false
+      properties:
+        source:
+          enum:
+          - primary_agreement
+          - grader_a
+          - grader_b
+          - arbiter
+          - calibration
+          - input_rule
+          - curator
+          - none
+          title: Source
+          type: string
+        reason_codes:
+          items:
+            minLength: 1
+            pattern: \S
+            type: string
+          title: Reason Codes
+          type: array
+      required:
+      - source
+      - reason_codes
+      title: DecisionV2
+      type: object
+    FinalAttemptV2:
+      additionalProperties: false
+      properties:
+        schema_version:
+          const: '2.0'
+          title: Schema Version
+          type: string
+        id:
+          minLength: 1
+          pattern: \S
+          title: Id
+          type: string
+        task_id:
+          minLength: 1
+          pattern: \S
+          title: Task Id
+          type: string
+        solution_text:
+          maxLength: 40000
+          minLength: 1
+          pattern: \S
+          title: Solution Text
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        max_score:
+          exclusiveMinimum: 0
+          title: Max Score
+          type: number
+        feedback:
+          $ref: '#/components/schemas/StudentFeedbackV2'
+        decision:
+          $ref: '#/components/schemas/DecisionV2'
+        result_status:
+          const: final
+          title: Result Status
+          type: string
+        score:
+          minimum: 0
+          title: Score
+          type: number
+        is_solved:
+          title: Is Solved
+          type: boolean
+        review:
+          anyOf:
+          - $ref: '#/components/schemas/CompletedReviewV2'
+          - type: 'null'
+      required:
+      - schema_version
+      - id
+      - task_id
+      - solution_text
+      - created_at
+      - max_score
+      - feedback
+      - decision
+      - result_status
+      - score
+      - is_solved
+      - review
+      title: FinalAttemptV2
+      type: object
+    PendingReviewV2:
+      additionalProperties: false
+      properties:
+        id:
+          minLength: 1
+          pattern: \S
+          title: Id
+          type: string
+        status:
+          enum:
+          - pending
+          - in_progress
+          title: Status
+          type: string
+      required:
+      - id
+      - status
+      title: PendingReviewV2
+      type: object
+    ProvisionalAttemptV2:
+      additionalProperties: false
+      properties:
+        schema_version:
+          const: '2.0'
+          title: Schema Version
+          type: string
+        id:
+          minLength: 1
+          pattern: \S
+          title: Id
+          type: string
+        task_id:
+          minLength: 1
+          pattern: \S
+          title: Task Id
+          type: string
+        solution_text:
+          maxLength: 40000
+          minLength: 1
+          pattern: \S
+          title: Solution Text
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        max_score:
+          exclusiveMinimum: 0
+          title: Max Score
+          type: number
+        feedback:
+          $ref: '#/components/schemas/StudentFeedbackV2'
+        decision:
+          $ref: '#/components/schemas/DecisionV2'
+        result_status:
+          const: provisional
+          title: Result Status
+          type: string
+        score:
+          anyOf:
+          - minimum: 0
+            type: number
+          - type: 'null'
+          title: Score
+        is_solved:
+          const: false
+          title: Is Solved
+          type: boolean
+        review:
+          $ref: '#/components/schemas/PendingReviewV2'
+      required:
+      - schema_version
+      - id
+      - task_id
+      - solution_text
+      - created_at
+      - max_score
+      - feedback
+      - decision
+      - result_status
+      - score
+      - is_solved
+      - review
+      title: ProvisionalAttemptV2
+      type: object
+    StudentFeedbackV2:
+      additionalProperties: false
+      properties:
+        general_comment:
+          minLength: 1
+          pattern: \S
+          title: General Comment
+          type: string
+        comments:
+          items:
+            type: string
+          title: Comments
+          type: array
+      required:
+      - general_comment
+      - comments
+      title: StudentFeedbackV2
+      type: object
+    AttemptV2:
+      discriminator:
+        mapping:
+          final: '#/components/schemas/FinalAttemptV2'
+          provisional: '#/components/schemas/ProvisionalAttemptV2'
+        propertyName: result_status
+      oneOf:
+      - $ref: '#/components/schemas/FinalAttemptV2'
+      - $ref: '#/components/schemas/ProvisionalAttemptV2'
+      title: AttemptV2
+      x-invariants:
+      - 0 <= score <= max_score, если score не null
+      - 'final: is_solved эквивалентен score == max_score'
+      - 'provisional: is_solved=false, review.id существует, reason_codes непусты'
+      - 'final с review: status=completed и source=curator; без review source != curator'
+      - Числовой балл требует source != none
+    ErrorDetailV2:
+      additionalProperties: false
+      properties:
+        code:
+          enum:
+          - AUTH_REQUIRED
+          - TASK_NOT_FOUND
+          - VALIDATION_ERROR
+          - RATE_LIMITED
+          - GRADING_UNAVAILABLE
+          - PERSISTENCE_FAILURE
+          - PERSISTENCE_OUTCOME_UNKNOWN
+          - INTERNAL_ERROR
+          title: Code
+          type: string
+        message:
+          minLength: 1
+          pattern: \S
+          title: Message
+          type: string
+        retryable:
+          title: Retryable
+          type: boolean
+      required:
+      - code
+      - message
+      - retryable
+      title: ErrorDetailV2
+      type: object
+    ErrorV2:
+      additionalProperties: false
+      properties:
+        schema_version:
+          const: '2.0'
+          title: Schema Version
+          type: string
+        request_id:
+          minLength: 1
+          pattern: \S
+          title: Request Id
+          type: string
+        result:
+          title: Result
+          type: 'null'
+        error:
+          $ref: '#/components/schemas/ErrorDetailV2'
+      required:
+      - schema_version
+      - request_id
+      - result
+      - error
+      title: ErrorV2
+      type: object
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Токен доступа ученика; refresh-токен не принимается.

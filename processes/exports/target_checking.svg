@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1890" height="840" viewBox="0 0 1890 840">
+<defs><marker id="seq" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#334155"/></marker><marker id="msg" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8" fill="none" stroke="#64748b"/></marker></defs>
+<rect width="1890" height="840" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#172b4d} .edge{fill:none;stroke:#334155;stroke-width:1.7} .message{fill:none;stroke:#64748b;stroke-width:1.3;stroke-dasharray:6 5}</style>
+<rect x="20" y="25" width="1850" height="80" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="55" y="72" text-anchor="start" font-size="19">Ученик</text>
+<rect x="20" y="155" width="1850" height="630" fill="#fafcff" stroke="#94a3b8" stroke-width="1.5"/>
+<text transform="translate(43 480) rotate(-90)" text-anchor="middle" font-size="17">PredelAI · целевая модель</text>
+<polyline class="edge" marker-end="url(#seq)" points="126,328 155,325"/>
+<polyline class="edge" marker-end="url(#seq)" points="285,325 330,325"/>
+<polyline class="edge" marker-end="url(#seq)" points="370,325 425,325"/>
+<polyline class="edge" marker-end="url(#seq)" points="350,345 350,685 425,685"/>
+<polyline class="edge" marker-end="url(#seq)" points="580,685 620,685"/>
+<polyline class="edge" marker-end="url(#seq)" points="565,325 620,325"/>
+<polyline class="edge" marker-end="url(#seq)" points="640,305 640,225 760,225"/>
+<polyline class="edge" marker-end="url(#seq)" points="660,325 710,325 710,382 760,382"/>
+<polyline class="edge" marker-end="url(#seq)" points="640,345 640,537 760,537"/>
+<polyline class="edge" marker-end="url(#seq)" points="920,225 1030,225"/>
+<polyline class="edge" marker-end="url(#seq)" points="1180,225 1300,225"/>
+<polyline class="edge" marker-end="url(#seq)" points="940,382 1030,382"/>
+<polyline class="edge" marker-end="url(#seq)" points="1180,382 1300,382"/>
+<polyline class="edge" marker-end="url(#seq)" points="940,537 1030,537"/>
+<polyline class="edge" marker-end="url(#seq)" points="1180,537 1300,537"/>
+<polyline class="edge" marker-end="url(#seq)" points="1550,605 1590,607"/>
+<polyline class="edge" marker-end="url(#seq)" points="1750,607 1800,607"/>
+<polyline class="edge" marker-end="url(#seq)" points="885,275 885,297 1530,297 1530,585"/>
+<polyline class="edge" marker-end="url(#seq)" points="925,440 925,462 1480,462 1480,605 1510,605"/>
+<polyline class="edge" marker-end="url(#seq)" points="885,590 885,650 1530,650 1530,625"/>
+<polyline class="message" marker-end="url(#msg)" points="108,105 108,310"/>
+<circle cx="108" cy="105" r="3" fill="white" stroke="#64748b"/>
+<polyline class="message" marker-end="url(#msg)" points="1105,190 1105,145 1390,145 1390,105"/>
+<circle cx="1105" cy="190" r="3" fill="white" stroke="#64748b"/>
+<polyline class="message" marker-end="url(#msg)" points="1105,340 1105,315 1430,315 1430,105"/>
+<circle cx="1105" cy="340" r="3" fill="white" stroke="#64748b"/>
+<polyline class="message" marker-end="url(#msg)" points="1105,500 1105,475 1460,475 1460,105"/>
+<circle cx="1105" cy="500" r="3" fill="white" stroke="#64748b"/>
+<polyline class="message" marker-end="url(#msg)" points="502,720 502,755 65,755 65,105"/>
+<circle cx="502" cy="720" r="3" fill="white" stroke="#64748b"/>
+<polyline class="message" marker-end="url(#msg)" points="1670,570 1670,105"/>
+<circle cx="1670" cy="570" r="3" fill="white" stroke="#64748b"/>
+<circle cx="108.0" cy="328.0" r="18.0" fill="white" stroke="#334155" stroke-width="1.7"/>
+<path d="M98,321 h20 v14 h-20 Z m0,0 l10,8 l10,-8" fill="none" stroke="#334155"/>
+<text x="108.0" y="366" text-anchor="middle" font-size="14">Решение поступило</text>
+<rect x="155" y="290" width="130" height="70" rx="10" fill="#eef6ff" stroke="#334155" stroke-width="1.6"/>
+<text x="220.0" y="326.0" text-anchor="middle" font-size="14">Проверить</text>
+<text x="220.0" y="344.0" text-anchor="middle" font-size="14">входные данные</text>
+<g transform="translate(171,305)" fill="none" stroke="#334155" stroke-width="1.5"><circle r="5"/><circle r="2"/><path d="M0,-8 v3 M0,5 v3 M-8,0 h3 M5,0 h3 M-6,-6 l3,3 M3,3 l3,3 M6,-6 l-3,3 M-3,3 l-3,3"/></g>
+<path d="M350.0,305 L370,325.0 L350.0,345 L330,325.0 Z" fill="#fff7df" stroke="#334155" stroke-width="1.6"/>
+<text x="350.0" y="331.0" text-anchor="middle" font-size="25">×</text>
+<text x="350.0" y="289" text-anchor="middle" font-size="14">Вход допустим?</text>
+<rect x="425" y="290" width="140" height="70" rx="10" fill="#eef6ff" stroke="#334155" stroke-width="1.6"/>
+<text x="495.0" y="335.0" text-anchor="middle" font-size="14">Проверить решение</text>
+<g transform="translate(441,305)" fill="none" stroke="#334155" stroke-width="1.5"><circle r="5"/><circle r="2"/><path d="M0,-8 v3 M0,5 v3 M-8,0 h3 M5,0 h3 M-6,-6 l3,3 M3,3 l3,3 M6,-6 l-3,3 M-3,3 l-3,3"/></g>
+<path d="M640.0,305 L660,325.0 L640.0,345 L620,325.0 Z" fill="#fff7df" stroke="#334155" stroke-width="1.6"/>
+<text x="640.0" y="331.0" text-anchor="middle" font-size="25">×</text>
+<text x="640.0" y="289" text-anchor="middle" font-size="14">Результат проверки</text>
+<rect x="760" y="190" width="160" height="70" rx="10" fill="#eef6ff" stroke="#334155" stroke-width="1.6"/>
+<text x="840.0" y="217.0" text-anchor="middle" font-size="14">Сохранить</text>
+<text x="840.0" y="235.0" text-anchor="middle" font-size="14">окончательную</text>
+<text x="840.0" y="253.0" text-anchor="middle" font-size="14">оценку</text>
+<g transform="translate(776,205)" fill="none" stroke="#334155" stroke-width="1.5"><circle r="5"/><circle r="2"/><path d="M0,-8 v3 M0,5 v3 M-8,0 h3 M5,0 h3 M-6,-6 l3,3 M3,3 l3,3 M6,-6 l-3,3 M-3,3 l-3,3"/></g>
+<rect x="1030" y="190" width="150" height="70" rx="10" fill="#edf8f1" stroke="#334155" stroke-width="1.6"/>
+<text x="1105.0" y="235.0" text-anchor="middle" font-size="14">Сообщить оценку</text>
+<path d="M1038,198 h16 v10 h-16 Z" fill="#334155"/><path d="M1038,198 l8,6 l8,-6" fill="none" stroke="white"/>
+<circle cx="1318.0" cy="225.0" r="18.0" fill="white" stroke="#334155" stroke-width="3.5"/>
+<text x="1318.0" y="263" text-anchor="middle" font-size="14">Оценка готова</text>
+<rect x="760" y="340" width="180" height="85" rx="10" fill="#eef6ff" stroke="#334155" stroke-width="1.6"/>
+<text x="850.0" y="365.5" text-anchor="middle" font-size="14">Сохранить</text>
+<text x="850.0" y="383.5" text-anchor="middle" font-size="14">предварительный</text>
+<text x="850.0" y="401.5" text-anchor="middle" font-size="14">результат и задачу</text>
+<text x="850.0" y="419.5" text-anchor="middle" font-size="14">куратора</text>
+<g transform="translate(776,355)" fill="none" stroke="#334155" stroke-width="1.5"><circle r="5"/><circle r="2"/><path d="M0,-8 v3 M0,5 v3 M-8,0 h3 M5,0 h3 M-6,-6 l3,3 M3,3 l3,3 M6,-6 l-3,3 M-3,3 l-3,3"/></g>
+<rect x="1030" y="340" width="150" height="85" rx="10" fill="#edf8f1" stroke="#334155" stroke-width="1.6"/>
+<text x="1105.0" y="383.5" text-anchor="middle" font-size="14">Сообщить о ручной</text>
+<text x="1105.0" y="401.5" text-anchor="middle" font-size="14">проверке</text>
+<path d="M1038,348 h16 v10 h-16 Z" fill="#334155"/><path d="M1038,348 l8,6 l8,-6" fill="none" stroke="white"/>
+<circle cx="1318.0" cy="383.0" r="18.0" fill="white" stroke="#334155" stroke-width="3.5"/>
+<text x="1318.0" y="421" text-anchor="middle" font-size="14">Ожидает куратора</text>
+<rect x="760" y="500" width="180" height="75" rx="10" fill="#eef6ff" stroke="#334155" stroke-width="1.6"/>
+<text x="850.0" y="538.5" text-anchor="middle" font-size="14">Сохранить техническую</text>
+<text x="850.0" y="556.5" text-anchor="middle" font-size="14">ошибку без оценки</text>
+<g transform="translate(776,515)" fill="none" stroke="#334155" stroke-width="1.5"><circle r="5"/><circle r="2"/><path d="M0,-8 v3 M0,5 v3 M-8,0 h3 M5,0 h3 M-6,-6 l3,3 M3,3 l3,3 M6,-6 l-3,3 M-3,3 l-3,3"/></g>
+<rect x="1030" y="500" width="150" height="75" rx="10" fill="#edf8f1" stroke="#334155" stroke-width="1.6"/>
+<text x="1105.0" y="538.5" text-anchor="middle" font-size="14">Сообщить об</text>
+<text x="1105.0" y="556.5" text-anchor="middle" font-size="14">отсутствии оценки</text>
+<path d="M1038,508 h16 v10 h-16 Z" fill="#334155"/><path d="M1038,508 l8,6 l8,-6" fill="none" stroke="white"/>
+<circle cx="1318.0" cy="537.0" r="18.0" fill="white" stroke="#334155" stroke-width="3.5"/>
+<text x="1318.0" y="575" text-anchor="middle" font-size="14">Оценка не получена</text>
+<rect x="425" y="650" width="155" height="70" rx="10" fill="#edf8f1" stroke="#334155" stroke-width="1.6"/>
+<text x="502.5" y="686.0" text-anchor="middle" font-size="14">Объяснить ошибку</text>
+<text x="502.5" y="704.0" text-anchor="middle" font-size="14">входных данных</text>
+<path d="M433,658 h16 v10 h-16 Z" fill="#334155"/><path d="M433,658 l8,6 l8,-6" fill="none" stroke="white"/>
+<circle cx="638.0" cy="685.0" r="18.0" fill="white" stroke="#334155" stroke-width="3.5"/>
+<text x="638.0" y="723" text-anchor="middle" font-size="14">Запрос отклонён</text>
+<path d="M1530.0,585 L1550,605.0 L1530.0,625 L1510,605.0 Z" fill="#fff7df" stroke="#334155" stroke-width="1.6"/>
+<text x="1530.0" y="611.0" text-anchor="middle" font-size="25">×</text>
+<rect x="1590" y="570" width="160" height="75" rx="10" fill="#edf8f1" stroke="#334155" stroke-width="1.6"/>
+<text x="1670.0" y="608.5" text-anchor="middle" font-size="14">Сообщить об ошибке</text>
+<text x="1670.0" y="626.5" text-anchor="middle" font-size="14">сохранения</text>
+<path d="M1598,578 h16 v10 h-16 Z" fill="#334155"/><path d="M1598,578 l8,6 l8,-6" fill="none" stroke="white"/>
+<circle cx="1818.0" cy="607.0" r="18.0" fill="white" stroke="#334155" stroke-width="3.5"/>
+<text x="1818.0" y="645" text-anchor="middle" font-size="14">Результат не</text>
+<text x="1818.0" y="663" text-anchor="middle" font-size="14">сохранён</text>
+<circle cx="885" cy="260" r="15" fill="white" stroke="#334155" stroke-width="1.2"/>
+<circle cx="885" cy="260" r="12" fill="white" stroke="#334155" stroke-width="1.2"/>
+<path d="M887,250 l-9,11 h7 l-2,9 l10,-13 h-7 Z" fill="#334155"/>
+<circle cx="925" cy="425" r="15" fill="white" stroke="#334155" stroke-width="1.2"/>
+<circle cx="925" cy="425" r="12" fill="white" stroke="#334155" stroke-width="1.2"/>
+<path d="M927,415 l-9,11 h7 l-2,9 l10,-13 h-7 Z" fill="#334155"/>
+<circle cx="885" cy="575" r="15" fill="white" stroke="#334155" stroke-width="1.2"/>
+<circle cx="885" cy="575" r="12" fill="white" stroke="#334155" stroke-width="1.2"/>
+<path d="M887,565 l-9,11 h7 l-2,9 l10,-13 h-7 Z" fill="#334155"/>
+<text x="397" y="316" text-anchor="middle" font-size="13">Да</text>
+<text x="375" y="610" text-anchor="middle" font-size="13">Нет</text>
+<text x="701" y="206" text-anchor="middle" font-size="13">Окончательная</text>
+<text x="702" y="366" text-anchor="middle" font-size="13">Куратор</text>
+<text x="691" y="517" text-anchor="middle" font-size="13">Отказ</text>
+<text x="25" y="820" text-anchor="start" font-size="14">BPMN 2.0 · Приём и автоматическая обработка. Работа куратора после назначения моделируется отдельно.</text>
+</svg>

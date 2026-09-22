@@ -1,0 +1,311 @@
+{
+  "$defs": {
+    "Feedback": {
+      "properties": {
+        "spans_detail": {
+          "items": {
+            "$ref": "#/$defs/Span"
+          },
+          "title": "Spans Detail",
+          "type": "array"
+        },
+        "checked": {
+          "default": false,
+          "title": "Checked",
+          "type": "boolean"
+        },
+        "general_comment": {
+          "default": "",
+          "title": "General Comment",
+          "type": "string"
+        },
+        "comments": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Comments",
+          "type": "array"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        },
+        "max_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Score"
+        },
+        "final_decision": {
+          "anyOf": [
+            {
+              "enum": [
+                "AUTO_ACCEPT",
+                "MANUAL_REVIEW_REQUIRED"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Final Decision"
+        },
+        "needs_curator": {
+          "default": false,
+          "title": "Needs Curator",
+          "type": "boolean"
+        },
+        "review_required": {
+          "default": false,
+          "title": "Review Required",
+          "type": "boolean"
+        },
+        "review_reason": {
+          "default": "",
+          "title": "Review Reason",
+          "type": "string"
+        },
+        "uncertainty_point": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UncertaintyPoint"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Feedback",
+      "type": "object"
+    },
+    "Span": {
+      "properties": {
+        "start": {
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "title": "End",
+          "type": "integer"
+        },
+        "message": {
+          "default": "",
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "default": "info",
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Span",
+      "type": "object"
+    },
+    "StatsOut": {
+      "properties": {
+        "solved": {
+          "title": "Solved",
+          "type": "integer"
+        },
+        "attempts": {
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "streak_days": {
+          "default": 0,
+          "title": "Streak Days",
+          "type": "integer"
+        },
+        "coins": {
+          "default": 0,
+          "title": "Coins",
+          "type": "integer"
+        },
+        "solved_task_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Solved Task Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solved",
+        "attempts"
+      ],
+      "title": "StatsOut",
+      "type": "object"
+    },
+    "UncertaintyPoint": {
+      "properties": {
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "reason_type": {
+          "title": "Reason Type",
+          "type": "string"
+        },
+        "message": {
+          "default": "",
+          "title": "Message",
+          "type": "string"
+        },
+        "related_step_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Step Ids",
+          "type": "array"
+        },
+        "related_criterion_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Criterion Ids",
+          "type": "array"
+        },
+        "related_check_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Check Ids",
+          "type": "array"
+        },
+        "related_block_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Block Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage",
+        "reason_type"
+      ],
+      "title": "UncertaintyPoint",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "solution_text": {
+      "default": "",
+      "title": "Solution Text",
+      "type": "string"
+    },
+    "feedback": {
+      "$ref": "#/$defs/Feedback"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Score"
+    },
+    "max_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Score"
+    },
+    "is_solved": {
+      "default": false,
+      "title": "Is Solved",
+      "type": "boolean"
+    },
+    "needs_curator": {
+      "default": false,
+      "title": "Needs Curator",
+      "type": "boolean"
+    },
+    "review_reason": {
+      "default": "",
+      "title": "Review Reason",
+      "type": "string"
+    },
+    "uncertainty_point": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UncertaintyPoint"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "coins_rewarded": {
+      "default": 0,
+      "title": "Coins Rewarded",
+      "type": "integer"
+    },
+    "stats": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StatsOut"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "task_id",
+    "feedback",
+    "created_at"
+  ],
+  "title": "AttemptOut",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
